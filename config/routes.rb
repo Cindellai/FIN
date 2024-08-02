@@ -14,5 +14,5 @@ Rails.application.routes.draw do
   resources :trades
   resources :posts
   resources :comments
-
+  resources :users, only: [:show, :index] 
 end

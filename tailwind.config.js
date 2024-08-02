@@ -1,19 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: [
+  content: [
     './app/**/*.html.erb',
     './app/helpers/**/*.rb',
-    './app/javascript/**/*.js',
-    './app/javascript/**/*.vue',
+    './app/assets/javascripts/**/*.js',
+    './app/javascript/**/*.js'
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
   },
-  variants: {
-    extend: {},
-  },
   plugins: [
-    require('daisyui'),
+    require('daisyui')
   ],
 }

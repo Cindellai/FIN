@@ -1,38 +1,75 @@
-<h1><%= @user.username %>'s Profile</h1>
-
-<p><%= @user.bio %></p>
-
-<% if @user.trader? %>
-  <h2>Posts</h2>
-  <% @posts.each do |post| %>
-    <div>
-      <h3><%= post.title %></h3>
-      <p><%= post.body %></p>
-      <p>External Link: <%= link_to post.url, post.url %></p>
+<div class="container mx-auto p-4">
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="w-1/4">
+      <div class="bg-white rounded-lg shadow p-4">
+        <h2 class="text-lg font-semibold">Subscriptions</h2>
+        <ul>
+          <% if current_user&.student? %>
+            <% @subscriptions.each do |subscription| %>
+              <li class="py-2 flex items-center">
+                <img src="<%= subscription.trader.profile_picture %>" alt="<%= subscription.trader.username %>" class="w-10 h-10 rounded-full">
+                <span class="ml-2"><%= subscription.trader.username %></span>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
     </div>
-  <% end %>
 
-  <h2>Trades</h2>
-  <% @trades.each do |trade| %>
-    <div>
-      <p>Stock: <%= trade.stock_name %></p>
-      <p>Executed At: <%= trade.executed_at %></p>
-      <p>Performance: <%= trade.performance %></p>
-      <p>Type: <%= trade.buy_or_sell %></p>
-      <p>Quantity: <%= trade.quantity %></p>
-      <p>Price: <%= trade.price %></p>
-      <p>Description: <%= trade.description %></p>
-    </div>
-  <% end %>
-<% end %>
+    <!-- Main Content -->
+    <div class="w-3/4 ml-4">
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="flex items-center">
+          <img src="<%= @user.profile_picture %>" alt="<%= @user.username %>" class="w-16 h-16 rounded-full">
+          <div class="ml-4">
+            <h2 class="text-xl font-semibold"><%= @user.username %></h2>
+            <p class="text-gray-600"><%= @user.bio %></p>
+          </div>
+        </div>
 
-<% if current_user&.student? %>
-  <h2>Subscriptions</h2>
-  <% @subscriptions.each do |subscription| %>
-    <div>
-      <p>Subscribed to: <%= link_to subscription.trader.username, user_path(subscription.trader) %></p>
-      <p>Tier: <%= subscription.tier %></p>
-      <p>Status: <%= subscription.status %></p>
+        <div class="mt-4">
+          <ul class="flex space-x-4">
+            <li><a href="#" class="btn btn-primary">Posts</a></li>
+            <li><a href="#" class="btn btn-ghost">Overview</a></li>
+            <li><a href="#" class="btn btn-ghost">Goals</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <% if @user.trader? %>
+        <div class="bg-white rounded-lg shadow p-4 mt-4">
+          <h2 class="text-lg font-semibold">Subscription Tiers</h2>
+          <% @user.subscriptions.each do |subscription| %>
+            <div class="p-4 mt-4 border rounded-lg">
+              <h3 class="text-xl font-semibold"><%= subscription.tier %></h3>
+              <p class="text-gray-600">$<%= subscription.price %>/month</p>
+              <button class="btn btn-outline">Subscribe</button>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-4 mt-4">
+          <h2 class="text-lg font-semibold">Subscribers</h2>
+          <% @subscribers.each do |subscriber| %>
+            <div class="p-4 mt-4 border rounded-lg">
+              <p><%= link_to subscriber.username, user_path(subscriber) %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="bg-white rounded-lg shadow p-4 mt-4">
+        <h2 class="text-lg font-semibold">Posts</h2>
+        <% @posts.each do |post| %>
+          <div class="p-4 mt-4 border rounded-lg">
+            <h3 class="text-xl font-semibold"><%= post.title %></h3>
+            <p><%= post.body %></p>
+            <a href="<%= post.url %>" class="text-blue-500">Read more</a>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
-<% end %>
+  </div>
+</div>
+
