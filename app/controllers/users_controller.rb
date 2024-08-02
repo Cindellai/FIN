@@ -8,10 +8,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @posts = @user.posts || []
+    @user = User.find(params[:id])
+    @posts = @user.posts
     @subscriptions = current_user&.subscriptions || []
     @subscribers = @user.subscribers if @user.trader?
   end
+  
 
   private
 

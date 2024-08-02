@@ -37,23 +37,30 @@
         </div>
         <% if @user.trader? %>
           <div class="bg-white rounded-lg shadow p-4 mt-4">
-            <h2 class="text-lg font-semibold">Posts</h2>
-            <% @posts.each do |post| %>
+            <h2 class="text-lg font-semibold">Subscription Tiers</h2>
+            <% @user.subscriptions.each do |subscription| %>
               <div class="p-4 mt-4 border rounded-lg">
-                <h3 class="text-xl font-semibold"><%= post.title %></h3>
-                <p><%= post.body %></p>
-                <a href="<%= post.url %>" class="text-blue-500">Read more</a>
-                <% if current_user == post.user %>
-                  <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger ml-2' %>
-                <% end %>
+                <h3 class="text-xl font-semibold"><%= subscription.tier %></h3>
+                <p class="text-gray-600">$<%= subscription.price %>/month</p>
+                <button class="btn btn-outline">Subscribe</button>
               </div>
             <% end %>
           </div>
-
-          <div class="bg-white rounded-lg shadow p-4 mt-4">
-            <%= link_to 'New Post', new_post_path, class: 'btn btn-primary' %>
-          </div>
         <% end %>
+        <div class="bg-white rounded-lg shadow p-4 mt-4">
+          <h2 class="text-lg font-semibold">Posts</h2>
+          <% @posts.each do |post| %>
+            <div class="p-4 mt-4 border rounded-lg">
+              <h3 class="text-xl font-semibold"><%= post.title %></h3>
+              <p><%= post.body %></p>
+              <a href="<%= post.url %>" class="text-blue-500">Read more</a>
+              <% if current_user == post.user %>
+                <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-primary' %>
+                <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

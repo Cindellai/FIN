@@ -9,12 +9,12 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      redirect_to user_profile_path(current_user), notice: 'Post was successfully created.'
     else
       render :new
     end
   end
-
+  
   def show
     # @post is already set by the before_action :set_post
   end
