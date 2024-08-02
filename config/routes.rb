@@ -3,16 +3,13 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-  
+
   # Root route
   root 'home#index'
 
-   # Define a route for the user profile page
-   get 'users/:id', to: 'users#show', as: 'user_profile'
-  
+  resources :users, only: [:show, :index]
+  resources :posts, only: [:new, :create, :show, :edit, :update, :destroy]
   resources :subscriptions
   resources :trades
-  resources :posts
   resources :comments
-  resources :users, only: [:show, :index] 
 end

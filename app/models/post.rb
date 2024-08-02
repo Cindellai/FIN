@@ -20,9 +20,8 @@
 #  fk_rails_...  (posted_by_id => users.id)
 #
 class Post < ApplicationRecord
-  belongs_to :posted_by, class_name: 'User'
+  belongs_to :user, foreign_key: :posted_by_id
 
-  has_many :comments
-
-  validates :title, :content_type, :url, :body, presence: true
+  validates :title, presence: true
+  validates :body, presence: true
 end
