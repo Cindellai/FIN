@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
-  #before_action :authenticate_user!
+  # Skip authentication for testing purposes
+  #before_action :authenticate_user!, only: [:show]
+
+  def index
+    @users = User.all
+  end
 
   def show
     @user = User.find(params[:id])
@@ -7,6 +12,6 @@ class UsersController < ApplicationController
       @posts = @user.posts
       @trades = @user.trades
     end
-    @subscriptions = @user.subscriptions if current_user.student?
+    @subscriptions = @user.subscriptions if current_user&.student?
   end
 end

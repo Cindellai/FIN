@@ -1,7 +1,5 @@
 <h1><%= @user.username %>'s Profile</h1>
-<% if @user.profile_picture.present? %>
-  <%= image_tag @user.profile_picture %>
-<% end %>
+
 <p><%= @user.bio %></p>
 
 <% if @user.trader? %>
@@ -10,9 +8,7 @@
     <div>
       <h3><%= post.title %></h3>
       <p><%= post.body %></p>
-      <% if post.url.present? %>
-        <p>External Link: <%= link_to post.url, post.url %></p>
-      <% end %>
+      <p>External Link: <%= link_to post.url, post.url %></p>
     </div>
   <% end %>
 
@@ -30,16 +26,13 @@
   <% end %>
 <% end %>
 
-<% if current_user.student? %>
+<% if current_user&.student? %>
   <h2>Subscriptions</h2>
   <% @subscriptions.each do |subscription| %>
     <div>
-      <p>Subscribed to: <%= link_to subscription.trader.username, user_profile_path(subscription.trader) %></p>
+      <p>Subscribed to: <%= link_to subscription.trader.username, user_path(subscription.trader) %></p>
       <p>Tier: <%= subscription.tier %></p>
-      <p>Price: <%= subscription.price %></p>
       <p>Status: <%= subscription.status %></p>
     </div>
   <% end %>
 <% end %>
-
-<%= link_to 'Back', root_path %>
