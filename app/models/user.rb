@@ -43,4 +43,13 @@ class User < ApplicationRecord
   scope :traders, -> { where(role: true) }
   # Scope to get only students
   scope :students, -> { where(role: false) }
+  
+  # Methods to check user roles
+  def trader?
+    role == true
+  end
+
+  def student?
+    role == false
+  end
 end

@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
+  
+  # Root route
+  root 'home#index'
 
    # Define a route for the user profile page
    get 'users/:id', to: 'users#show', as: 'user_profile'
@@ -12,5 +15,4 @@ Rails.application.routes.draw do
   resources :posts
   resources :comments
 
-  root to: 'home#index'
 end
