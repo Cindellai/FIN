@@ -6,7 +6,9 @@
         <div class="bg-white rounded-lg shadow p-4">
           <h2 class="text-lg font-semibold">Subscriptions</h2>
           <ul>
+            <!-- Check if the current user is a student -->
             <% if current_user&.student? %>
+              <!-- Loop through the user's subscriptions and display them -->
               <% @subscriptions.each do |subscription| %>
                 <li class="py-2 flex items-center">
                   <img src="<%= subscription.trader.profile_picture %>" alt="<%= subscription.trader.username %>" class="w-10 h-10 rounded-full">
@@ -17,17 +19,21 @@
           </ul>
         </div>
       </div>
+
       <!-- Main Content -->
       <div class="w-3/4 ml-4">
         <div class="bg-white rounded-lg shadow p-4">
           <div class="flex items-center">
+            <!-- Display user's profile picture -->
             <img src="<%= @user.profile_picture %>" alt="<%= @user.username %>" class="w-16 h-16 rounded-full">
             <div class="ml-4">
+              <!-- Display user's username and bio -->
               <h2 class="text-xl font-semibold"><%= @user.username %></h2>
               <p class="text-gray-600"><%= @user.bio %></p>
             </div>
           </div>
           <div class="mt-4">
+            <!-- Navigation buttons for posts, overview, and goals -->
             <ul class="flex space-x-4">
               <li><a href="#" class="btn btn-primary">Posts</a></li>
               <li><a href="#" class="btn btn-ghost">Overview</a></li>
@@ -35,9 +41,19 @@
             </ul>
           </div>
         </div>
+
+        <!-- Add Post button, visible only if the current user is viewing their own profile -->
+        <% if current_user == @user %>
+          <div class="mt-4">
+            <%= link_to 'Add Post', new_post_path, class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+
+        <!-- Subscription Tiers section, visible only if the user is a trader -->
         <% if @user.trader? %>
           <div class="bg-white rounded-lg shadow p-4 mt-4">
             <h2 class="text-lg font-semibold">Subscription Tiers</h2>
+            <!-- Loop through the user's subscriptions and display them -->
             <% @user.subscriptions.each do |subscription| %>
               <div class="p-4 mt-4 border rounded-lg">
                 <h3 class="text-xl font-semibold"><%= subscription.tier %></h3>
@@ -47,13 +63,18 @@
             <% end %>
           </div>
         <% end %>
+
+        <!-- Posts section -->
         <div class="bg-white rounded-lg shadow p-4 mt-4">
           <h2 class="text-lg font-semibold">Posts</h2>
+          <!-- Loop through the user's posts and display them -->
           <% @posts.each do |post| %>
             <div class="p-4 mt-4 border rounded-lg">
               <h3 class="text-xl font-semibold"><%= post.title %></h3>
               <p><%= post.body %></p>
+              <!-- Display post URL if present -->
               <a href="<%= post.url %>" class="text-blue-500">Read more</a>
+              <!-- Edit and Delete buttons, visible only if the current user is the post owner -->
               <% if current_user == post.user %>
                 <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-primary' %>
                 <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
