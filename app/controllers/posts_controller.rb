@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to user_path(current_user), notice: 'Post was successfully created.'
+      redirect_to user_profile_path(current_user), notice: 'Post was successfully created.'
     else
       render :new
     end
@@ -21,26 +21,23 @@ class PostsController < ApplicationController
   def edit
   end
 
-  def update
-    if @post.update(post_params)
-      redirect_to user_path(current_user), notice: 'Post was successfully updated.'
-    else
-      render :edit
-    end
+  def destroy
+    @post.destroy
+    redirect_to user_profile_path(current_user), notice: 'Post was successfully deleted.'
   end
 
-  def destroy
-    if @post.user == current_user
-      @post.destroy
-      redirect_to user_path(current_user), notice: 'Post was successfully deleted.'
+  def update
+    if @post.update(post_params)
+      redirect_to user_profile_path(current_user), notice: 'Post was successfully updated.'
     else
-      redirect_to user_path(current_user), alert: 'You are not authorized to delete this post.'
+      render :edit
     end
   end
 
   private
 
   def set_post
+    logger.debug "Fetching post with ID: #{params[:id]}"
     @post = Post.find(params[:id])
   end
 

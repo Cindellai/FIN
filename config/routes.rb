@@ -12,4 +12,7 @@ Rails.application.routes.draw do
   resources :subscriptions
   resources :trades
   resources :comments
+
+  get 'users/:id', to: 'users#show', as: 'user_profile'
+
 end

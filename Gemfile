@@ -12,6 +12,10 @@ gem "sprockets-rails"
 # Gemfile
 gem 'faker'
 
+gem 'rails-ujs'
+gem 'tailwindcss-rails', '~> 2.0'
+
+
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
@@ -80,7 +84,6 @@ gem "appdev_support"
 gem "awesome_print"
 gem "devise"
 gem "dotenv-rails"
-gem "faker"
 gem "htmlbeautifier"
 gem "http"
 gem "sqlite3", "~> 1.4"
