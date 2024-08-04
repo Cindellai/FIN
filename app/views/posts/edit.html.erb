@@ -1,23 +1,83 @@
 <div class="container mx-auto p-4">
   <div class="bg-white rounded-lg shadow p-4">
     <h2 class="text-2xl font-semibold">Edit Post</h2>
-    <%= form_with(model: @post, local: true) do |form| %>
+    <%= form_with(model: @post, local: true, id: 'post_form') do |form| %>
       <div class="mb-4">
         <%= form.label :title, class: 'block text-gray-700' %>
         <%= form.text_field :title, class: 'form-input mt-1 block w-full' %>
       </div>
+      
       <div class="mb-4">
-        <%= form.label :body, class: 'block text-gray-700' %>
-        <%= form.text_area :body, class: 'form-input mt-1 block w-full' %>
+        <%= form.label :post_type, 'Post Type', class: 'block text-gray-700' %>
+        <%= form.select :post_type, [['Article', 'article'], ['Video', 'video'], ['Trade Idea', 'trade_idea']], {}, class: 'form-input mt-1 block w-full', id: 'post_type_select' %>
       </div>
-      <div class="mb-4">
-        <%= form.label :url, class: 'block text-gray-700' %>
+
+      <div id="article_fields" class="mb-4" style="display:none;">
+        <%= form.label :body, 'Content', class: 'block text-gray-700' %>
+        <%= form.text_area :body, class: 'form-textarea mt-1 block w-full' %>
+      </div>
+      
+      <div id="video_fields" class="mb-4" style="display:none;">
+        <%= form.label :url, 'Video URL', class: 'block text-gray-700' %>
         <%= form.text_field :url, class: 'form-input mt-1 block w-full' %>
       </div>
-      <div class="flex items-center">
+
+      <div id="trade_idea_fields" class="mb-4" style="display:none;">
+        <%= fields_for :trade, @trade do |trade_form| %>
+          <div class="mb-4">
+            <%= trade_form.label :stock_name, 'Stock Name', class: 'block text-gray-700' %>
+            <%= trade_form.text_field :stock_name, class: 'form-input mt-1 block w-full' %>
+          </div>
+          <div class="mb-4">
+            <%= trade_form.label :executed_at, 'Executed At', class: 'block text-gray-700' %>
+            <%= trade_form.datetime_select :executed_at, class: 'form-input mt-1 block w-full' %>
+          </div>
+          <div class="mb-4">
+            <%= trade_form.label :performance, 'Performance', class: 'block text-gray-700' %>
+            <%= trade_form.text_field :performance, class: 'form-input mt-1 block w-full' %>
+          </div>
+          <div class="mb-4">
+            <%= trade_form.label :buy_or_sell, 'Buy or Sell', class: 'block text-gray-700' %>
+            <%= trade_form.select :buy_or_sell, [['Buy', 'buy'], ['Sell', 'sell']], {}, class: 'form-input mt-1 block w-full' %>
+          </div>
+          <div class="mb-4">
+            <%= trade_form.label :quantity, 'Quantity', class: 'block text-gray-700' %>
+            <%= trade_form.number_field :quantity, class: 'form-input mt-1 block w-full' %>
+          </div>
+          <div class="mb-4">
+            <%= trade_form.label :price, 'Price', class: 'block text-gray-700' %>
+            <%= trade_form.text_field :price, class: 'form-input mt-1 block w-full' %>
+          </div>
+          <div class="mb-4">
+            <%= trade_form.label :description, 'Description', class: 'block text-gray-700' %>
+            <%= trade_form.text_area :description, class: 'form-textarea mt-1 block w-full' %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="flex items-center justify-between">
         <%= form.submit 'Update Post', class: 'btn btn-primary' %>
         <%= button_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
       </div>
     <% end %>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const postTypeSelect = document.getElementById('post_type_select');
+    const articleFields = document.getElementById('article_fields');
+    const videoFields = document.getElementById('video_fields');
+    const tradeIdeaFields = document.getElementById('trade_idea_fields');
+
+    function toggleFields() {
+      const selectedType = postTypeSelect.value;
+      articleFields.style.display = selectedType === 'article' ? 'block' : 'none';
+      videoFields.style.display = selectedType === 'video' ? 'block' : 'none';
+      tradeIdeaFields.style.display = selectedType === 'trade_idea' ? 'block' : 'none';
+    }
+
+    postTypeSelect.addEventListener('change', toggleFields);
+    toggleFields(); // Initial call to set the correct fields on page load
+  });
+</script>

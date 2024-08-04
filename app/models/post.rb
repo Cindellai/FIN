@@ -5,6 +5,7 @@
 #  id           :bigint           not null, primary key
 #  body         :text
 #  content_type :string
+#  post_type    :string
 #  title        :string
 #  url          :string
 #  created_at   :datetime         not null
@@ -21,7 +22,7 @@
 #
 class Post < ApplicationRecord
   belongs_to :user, foreign_key: :posted_by_id
-
+  has_one :trade, dependent: :destroy                                           
   validates :title, presence: true
-  validates :body, presence: true
+  validates :body, presence: true, if: -> { post_type != 'trade_idea' }
 end

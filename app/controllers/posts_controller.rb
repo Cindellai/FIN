@@ -4,11 +4,16 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @post.build_trade if @post.post_type == 'trade_idea'
   end
 
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
+      if @post.post_type == 'trade_idea'
+        trade_params = params.require(:post).permit(trade_attributes: [:stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description])
+        @post.create_trade(trade_params[:trade_attributes].merge(poster_id: current_user.id))
+      end
       redirect_to user_profile_path(current_user), notice: 'Post was successfully created.'
     else
       render :new
@@ -19,6 +24,23 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @post.build_trade if @post.post_type == 'trade_idea' && @post.trade.nil?
+  end
+
+  def update
+    if @post.update(post_params)
+      if @post.post_type == 'trade_idea'
+        trade_params = params.require(:post).permit(trade_attributes: [:stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description])
+        if @post.trade
+          @post.trade.update(trade_params[:trade_attributes])
+        else
+          @post.create_trade(trade_params[:trade_attributes].merge(poster_id: current_user.id))
+        end
+      end
+      redirect_to user_profile_path(current_user), notice: 'Post was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -26,22 +48,14 @@ class PostsController < ApplicationController
     redirect_to user_profile_path(current_user), notice: 'Post was successfully deleted.'
   end
 
-  def update
-    if @post.update(post_params)
-      redirect_to user_profile_path(current_user), notice: 'Post was successfully updated.'
-    else
-      render :edit
-    end
-  end
-
   private
 
   def set_post
-    logger.debug "Fetching post with ID: #{params[:id]}"
     @post = Post.find(params[:id])
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :url)
+    params.require(:post).permit(:title, :post_type, :url, :body, :posted_by, trade_attributes: [:id, :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description])
   end
 end
+
