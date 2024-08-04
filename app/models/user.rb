@@ -33,7 +33,7 @@ class User < ApplicationRecord
   has_many :subscribed_traders, through: :subscriptions, source: :trader
 
   has_many :trades, foreign_key: :poster_id, class_name: 'Trade'
-  has_many :posts, foreign_key: :posted_by_id, class_name: 'Post'
+  has_many :posts, foreign_key: :user_id, class_name: 'Post'
   has_many :comments
 
   # Subscribers association

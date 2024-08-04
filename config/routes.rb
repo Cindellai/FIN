@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :users, only: [:show, :index]
-  resources :posts, only: [:new, :create, :show, :edit, :update, :destroy]
+  resources :posts
   resources :subscriptions
   resources :trades
   resources :comments

@@ -9,12 +9,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
-    @subscriptions = current_user&.subscriptions || []
-    @subscribers = @user.subscribers if @user.trader?
+    @posts = @user.posts.order(created_at: :desc)
+    @subscriptions = @user.subscriptions.includes(:trader)
   end
   
-
   private
 
   def set_user

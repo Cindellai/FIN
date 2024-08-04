@@ -23,7 +23,7 @@
       </div>
 
       <div id="trade_idea_fields" class="mb-4" style="display:none;">
-        <%= fields_for :trade, @trade do |trade_form| %>
+        <%= form.fields_for :trade, @post.trade || @post.build_trade do |trade_form| %>
           <div class="mb-4">
             <%= trade_form.label :stock_name, 'Stock Name', class: 'block text-gray-700' %>
             <%= trade_form.text_field :stock_name, class: 'form-input mt-1 block w-full' %>

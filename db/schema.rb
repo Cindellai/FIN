@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_03_233843) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_04_021023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,11 +31,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_03_233843) do
     t.string "content_type"
     t.string "url"
     t.text "body"
-    t.bigint "posted_by_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "post_type"
-    t.index ["posted_by_id"], name: "index_posts_on_posted_by_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_03_233843) do
 
   add_foreign_key "comments", "trades"
   add_foreign_key "comments", "users"
-  add_foreign_key "posts", "users", column: "posted_by_id"
+  add_foreign_key "posts", "users"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "subscriptions", "users", column: "trader_id"
   add_foreign_key "trades", "users", column: "poster_id"

@@ -5,8 +5,11 @@
     <% if @post.url.present? %>
       <a href="<%= @post.url %>" class="text-blue-500">Read more</a>
     <% end %>
+
     <% if current_user == @post.user %>
       <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary' %>
+    <% else %>
+      <p>The current user does not own this post.</p>
     <% end %>
   </div>
 </div>
