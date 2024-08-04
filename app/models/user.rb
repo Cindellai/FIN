@@ -56,4 +56,9 @@ class User < ApplicationRecord
   def student?
     role == false
   end
+
+  def feed
+    Post.where(user_id: subscribed_traders).order(created_at: :desc)
+  end
+
 end

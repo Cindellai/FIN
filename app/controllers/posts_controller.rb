@@ -62,6 +62,11 @@ class PostsController < ApplicationController
     redirect_to posts_url, notice: 'Post was successfully destroyed.'
   end
 
+  def feed
+    Post.where(user_id: subscribed_creator_ids).order(created_at: :desc)
+  end
+
+
   private
 
   def set_post

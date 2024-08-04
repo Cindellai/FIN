@@ -7,9 +7,24 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .content {
+        flex: 1;
+      }
+    </style>
   </head>
-
   <body>
-    <%= yield %>
+    <%= render 'shared/navbar' %>
+    <div class="content container mx-auto p-4">
+      <%= yield %>
+    </div>
+    <%= render 'shared/footer' %> <!-- Add the footer here -->
   </body>
 </html>

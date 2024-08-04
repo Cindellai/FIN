@@ -1,0 +1,40 @@
+<div class="card lg:card-side bg-base-100 shadow-xl mb-4">
+  <% if post.url.present? %>
+    <figure>
+      <img src="<%= post.url %>" alt="<%= post.title %>" />
+    </figure>
+  <% end %>
+  <div class="card-body">
+    <h2 class="card-title"><%= post.title %></h2>
+    <p class="text-gray-600"><%= post.created_at.strftime("%B %d, %Y %H:%M") %></p>
+    <div class="mt-2">
+      <% if post.post_type == 'article' %>
+        <p><%= post.body %></p>
+      <% elsif post.post_type == 'video' %>
+        <a href="<%= post.url %>" class="text-blue-500">Watch Video</a>
+      <% elsif post.post_type == 'trade_idea' %>
+        <% if post.trade.present? %>
+          <div>
+            <p><strong>Stock Name:</strong> <%= post.trade.stock_name %></p>
+            <p><strong>Executed At:</strong> <%= post.trade.executed_at.strftime("%B %d, %Y %H:%M") %></p>
+            <p><strong>Performance:</strong> <%= post.trade.performance %></p>
+            <p><strong>Buy or Sell:</strong> <%= post.trade.buy_or_sell %></p>
+            <p><strong>Quantity:</strong> <%= post.trade.quantity %></p>
+            <p><strong>Price:</strong> <%= post.trade.price %></p>
+            <p><strong>Description:</strong> <%= post.trade.description %></p>
+          </div>
+        <% else %>
+          <p>No trade details available.</p>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="card-actions justify-end">
+      <% if current_user == post.user %>
+        <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-primary' %>
+        <%= button_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      <% else %>
+        <p>The current user does not own this post.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
