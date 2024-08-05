@@ -1,0 +1,56 @@
+<!-- app/views/users/_profile.html.erb -->
+<div class="relative w-full h-72 bg-cover bg-center rounded-lg" style="background-image: url('<%= user.banner_image.attached? ? url_for(user.banner_image) : asset_path('placeholder-banner.png') %>');">
+  <div class="absolute top-4 left-4">
+    <!-- Social media buttons here -->
+  </div>
+</div>
+<div class="flex flex-col items-center -mt-24">
+  <div class="avatar">
+    <div class="w-32 h-32 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
+      <% if user.profile_picture.attached? %>
+        <img src="<%= url_for(user.profile_picture) %>" alt="<%= user.username %>" class="w-32 h-32 rounded-full" />
+      <% else %>
+        <div class="rounded-full bg-gray-200 w-32 h-32 flex items-center justify-center">
+          <span class="text-gray-700 text-lg">No Image</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-4 bg-white rounded-lg shadow p-4 text-center border border-gray-200 w-full max-w-md">
+   <span class="text-xl font-bold">@<%= user.username %></span>
+    <p class="text-gray-600"><%= user.bio %></p>
+    <div class="flex items-center mt-2 justify-center">
+      <p class="text-gray-600">Subscribers: 2678</p>
+    </div>
+  </div>
+
+  <% if current_user == user %>
+    <a href="<%= edit_user_path(user) %>" class="btn btn-secondary mt-4">Edit Profile</a>
+  <% end %>
+
+  <div class="flex items-center mt-2">
+    <button class="btn btn-outline btn-primary">Follow</button>
+    <div class="dropdown dropdown-end ml-2">
+      <button tabindex="0" class="btn btn-outline btn-primary btn-circle">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+        <li><a href="#">Share Profile</a></li>
+        <li><a href="#">Report</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h2 class="text-xl font-semibold text-gray-700">Posts</h2>
+  <a href="<%= new_post_path %>" class="bg-blue-800 text-white px-4 py-2 rounded mb-4 inline-block">New Post</a>
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <%= render 'posts/post_card', post: post %>
+    <% end %>
+  <% else %>
+    <p class="text-gray-700">No posts available.</p>
+  <% end %>
+</div>

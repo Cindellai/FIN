@@ -1,0 +1,40 @@
+<h1>Your Subscriptions</h1>
+
+<%= form_with(model: Subscription.new, local: true) do |form| %>
+  <div>
+    <%= form.label :trader_id %>
+    <%= form.collection_select :trader_id, User.where(role: true), :id, :username %>
+  </div>
+  <div>
+    <%= form.label :tier %>
+    <%= form.select :tier, ['free', 'premium'] %>
+  </div>
+  <div>
+    <%= form.label :price %>
+    <%= form.number_field :price %>
+  </div>
+  <div>
+    <%= form.label :duration %>
+    <%= form.number_field :duration %>
+  </div>
+  <div>
+    <%= form.label :status %>
+    <%= form.select :status, ['active', 'inactive'] %>
+  </div>
+  <div>
+    <%= form.submit 'Subscribe' %>
+  </div>
+<% end %>
+
+<h2>Existing Subscriptions</h2>
+
+<% @subscriptions.each do |subscription| %>
+  <div>
+    <p>Trader: <%= subscription.trader.username %></p>
+    <p>Tier: <%= subscription.tier %></p>
+    <p>Price: <%= subscription.price %></p>
+    <p>Duration: <%= subscription.duration %> months</p>
+    <p>Status: <%= subscription.status %></p>
+    <%= link_to 'Unsubscribe', subscription_path(subscription), method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+<% end %>
