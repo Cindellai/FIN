@@ -13,6 +13,19 @@ class UsersController < ApplicationController
     Rails.logger.debug "Fetched posts: #{@posts.inspect}"
   end
 
+  def edit
+    @user = current_user
+  end
+
+  def update
+    @user = current_user
+    if @user.update(user_params)
+      redirect_to @user, notice: 'Profile was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
   def feed
     @posts = current_user.feed
     Rails.logger.debug "Fetched feed posts: #{@posts.inspect}"
@@ -22,5 +35,9 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:username, :bio, :profile_picture, :banner_image)
   end
 end

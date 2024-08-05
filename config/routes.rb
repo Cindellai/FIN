@@ -4,16 +4,14 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  # Root route
   root 'home#index'
 
-  resources :users, only: [:show, :index]
-  resources :posts
+  resources :users, only: [:index, :show, :edit, :update]
+  resources :posts, only: [:new, :create, :edit, :update, :show, :index, :destroy]
   resources :subscriptions
   resources :trades
   resources :comments
 
   get 'users/:id', to: 'users#show', as: 'user_profile'
   get 'feed', to: 'users#feed', as: 'user_feed'
-
 end

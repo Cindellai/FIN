@@ -40,6 +40,10 @@ class User < ApplicationRecord
   has_many :received_subscriptions, foreign_key: :trader_id, class_name: 'Subscription'
   has_many :subscribers, through: :received_subscriptions, source: :user
 
+   # File uploads
+   has_one_attached :profile_picture
+   has_one_attached :banner_image
+
   # Validations
   validates :username, presence: true, uniqueness: true
 
