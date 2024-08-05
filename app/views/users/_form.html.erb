@@ -1,0 +1,43 @@
+<!-- app/views/users/_form.html.erb -->
+<%= form_with(model: user, local: true) do |form| %>
+  <div class="mb-4">
+    <%= form.label :username, class: 'block text-gray-700' %>
+    <div class="flex items-center">
+      <span class="text-xl font-bold">@</span>
+      <%= form.text_field :username, class: 'form-input mt-1 block w-full ml-2' %>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :bio, class: 'block text-gray-700' %>
+    <%= form.text_area :bio, class: 'form-textarea mt-1 block w-full' %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :profile_picture, "Profile Picture", class: 'block text-gray-700' %>
+    <%= form.file_field :profile_picture, class: 'form-input mt-1 block w-full' %>
+    <% if user.profile_picture.attached? %>
+      <div class="mt-2">
+        <%= image_tag url_for(user.profile_picture), class: 'w-24 h-24 rounded-full' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :banner_image, "Banner Image", class: 'block text-gray-700' %>
+    <%= form.file_field :banner_image, class: 'form-input mt-1 block w-full' %>
+    <% if user.banner_image.attached? %>
+      <div class="mt-2">
+        <%= image_tag url_for(user.banner_image), class: 'w-full h-48 object-cover rounded-lg' %>
+      </div>
+    <% else %>
+      <div class="mt-2 w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg">
+        <%= image_tag asset_path('banner_placeholder.png'), class: 'w-full h-48 object-cover rounded-lg' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Profile", class: 'btn btn-primary' %>
+  </div>
+<% end %>

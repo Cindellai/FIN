@@ -1,0 +1,17 @@
+<h1>Trades</h1>
+
+<%= link_to 'New Trade', new_trade_path %>
+
+<% @trades.each do |trade| %>
+  <div>
+    <p>Stock: <%= trade.stock_name %></p>
+    <p>Executed At: <%= trade.executed_at %></p>
+    <p>Performance: <%= trade.performance %></p>
+    <p>Type: <%= trade.buy_or_sell %></p>
+    <p>Quantity: <%= trade.quantity %></p>
+    <p>Price: <%= trade.price %></p>
+    <p>Description: <%= trade.description %></p>
+    <%= link_to 'View', trade_path(trade) %>
+    <%= link_to 'Delete', trade_path(trade), method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+<% end %>

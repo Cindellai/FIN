@@ -1,11 +1,33 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-import { Turbo } from "@hotwired/turbo-rails"
-import "controllers"
+// app/javascript/application.js
 
-Turbo.session.drive = false
-
-import jquery from "jquery";
-window.jQuery = jquery;
-window.$ = jquery;
 import Rails from "@rails/ujs"
-Rails.start();
+Rails.start()
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const path = button.getAttribute('data-path');
+      const resourceName = button.getAttribute('data-resource-name');
+      confirmDelete(path, resourceName);
+    });
+  });
+});
+
+function confirmDelete(path, resourceName) {
+  if (confirm('Are you sure you want to delete ' + resourceName + '?')) {
+    fetch(path, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        window.location.href = '/users/' + window.currentUser.id;
+      } else {
+        alert('Failed to delete ' + resourceName);
+      }
+    });
+  }
+}

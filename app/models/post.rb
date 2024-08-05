@@ -5,24 +5,27 @@
 #  id           :bigint           not null, primary key
 #  body         :text
 #  content_type :string
+#  post_type    :string
 #  title        :string
 #  url          :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  posted_by_id :bigint           not null
+#  user_id      :bigint           not null
 #
 # Indexes
 #
-#  index_posts_on_posted_by_id  (posted_by_id)
+#  index_posts_on_user_id  (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (posted_by_id => users.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class Post < ApplicationRecord
-  belongs_to :posted_by, class_name: 'User'
-
-  has_many :comments
-
-  validates :title, :content_type, :url, :body, presence: true
+  belongs_to :user
+  has_one :trade, dependent: :destroy                                           
+  validates :title, presence: true
+  validates :body, presence: true, if: -> { post_type != 'trade_idea' }
+  validates :post_type, presence: true
+  accepts_nested_attributes_for :trade, allow_destroy: true
 end
+ 

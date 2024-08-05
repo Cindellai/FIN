@@ -12,6 +12,7 @@
 #  stock_name  :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  post_id     :integer
 #  poster_id   :bigint           not null
 #
 # Indexes
@@ -23,6 +24,7 @@
 #  fk_rails_...  (poster_id => users.id)
 #
 class Trade < ApplicationRecord
+  belongs_to :post
   belongs_to :poster, class_name: 'User'
   has_many :comments
 

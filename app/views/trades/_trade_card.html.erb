@@ -1,0 +1,17 @@
+<div class="p-4 rounded-lg bg-gradient-to-r from-pink-500 to-orange-500 shadow-lg">
+  <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+    <div class="w-12 h-12 flex items-center justify-center bg-orange-200 rounded-full">
+      <!-- Replace with appropriate icon for the trade -->
+      <%= image_tag "icon_path_here.png", class: "w-6 h-6" %>
+    </div>
+    <div class="flex-1 ml-4">
+      <h2 class="font-bold text-gray-800"><%= trade.title %></h2>
+      <p class="text-gray-500"><%= trade.description %></p>
+    </div>
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    </div>
+  </div>
+</div>
