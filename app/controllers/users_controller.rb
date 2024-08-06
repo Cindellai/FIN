@@ -25,6 +25,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
+    Rails.logger.debug "params[:id]: #{params[:id]}"
     @user = User.find(params[:id])
   end
 

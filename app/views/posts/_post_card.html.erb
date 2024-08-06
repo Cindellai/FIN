@@ -28,7 +28,9 @@
 
     <!-- Expandable Metrics Section -->
     <% if post.trade.present? %>
-      <button class="btn btn-primary mt-4" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
+<button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 text-black" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
+
+
       <div id="metrics-<%= post.id %>" class="hidden mt-4">
         <div aria-label="Card" class="card bg-base-100 card-bordered">
           <div class="card-body p-0">
