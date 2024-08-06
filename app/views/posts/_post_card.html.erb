@@ -56,7 +56,7 @@
                 <% if post.trade.price.present? %>
                   <div class="text-center">
                     <p class="text-base font-medium">Price</p>
-                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.price %></p>
+                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.price, precision: 2, delimiter: ',') %></p>
                   </div>
                 <% end %>
                 <% if post.trade.performance.present? %>
@@ -65,6 +65,11 @@
                     <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.performance, precision: 3) %></p>
                   </div>
                 <% end %>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="overflow-hidden rounded-lg">
+                <div id="financial-metrics-chart-<%= post.id %>" style="min-height: 210px;"></div>
               </div>
             </div>
           </div>
@@ -82,7 +87,8 @@
                 </div>
               </div>
               <div class="mt-2 flex items-center gap-3">
-                <span class="text-4xl font-semibold">$<%= number_with_precision(post.trade.revenue, precision: 2, delimiter: ',') %>K</span>
+                <% revenue = post.trade.quantity * post.trade.price %>
+                <span class="text-4xl font-semibold">$<%= number_with_precision(revenue / 1000.0, precision: 2, delimiter: ',') %>K</span>
                 <span class="text-sm font-medium text-success">+8.24%</span>
               </div>
               <span class="text-sm text-base-content/70">Total income in this year</span>
@@ -106,7 +112,7 @@
       },
       series: [{
         name: 'Active Sessions',
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        data: Array.from({ length: 9 }, () => Math.floor(Math.random() * 100))
       }],
       xaxis: {
         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
@@ -129,10 +135,10 @@
       },
       series: [{
         name: 'Trades',
-        data: [3650, 4380, 5110, 5840, 6570, 7300, 5110, 5840, 6570, 4380]
+        data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 5000))
       }, {
         name: 'Revenue',
-        data: [1340.56, 1982.75, 2097.66, 3837.28, 4754.80, 5348.43, 3155.55, 2313.22, 4536.71, 1354.52]
+        data: Array.from({ length: 10 }, () => (Math.random() * 5000).toFixed(2))
       }],
       xaxis: {
         categories: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
@@ -140,7 +146,7 @@
       tooltip: {
         y: {
           formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
-            return seriesIndex === 1 ? `$${value}K` : value;
+            return seriesIndex === 1 ? `$${parseFloat(value).toFixed(2)}K` : value;
           }
         }
       },
@@ -172,3 +178,4 @@
     }
   }
 </script>
+
