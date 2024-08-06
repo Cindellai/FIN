@@ -16,7 +16,8 @@
         <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
       </div>
     </div>
-    <h2 class="font-semibold text-lg mb-2"><%= post.title %></h2>
+    <h2 class="text-lg mb-2"><strong><%= post.title %></strong></h2>
+
     <% if post.post_type == 'article' %>
       <p class="mb-2"><%= post.body %></p>
     <% elsif post.post_type == 'video' %>
@@ -39,12 +40,23 @@
           <path d="M9 12.5V9h2v3.5L10 15l-1-2.5z"/>
         </svg>
       </div>
-      <div>
-        <% if current_user == post.user %>
-          <a href="<%= edit_post_path(post) %>" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Edit</a>
-          <%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'bg-gray-400 text-white px-2 py-1 rounded hover:bg-gray-500' %>
-        <% end %>
-      </div>
+      <div class="card-actions justify-end mt-4 relative">
+  <% if current_user == post.user %>
+    <div class="dropdown dropdown-end z-50">
+      <label tabindex="0" class="btn btn-ghost btn-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01" />
+        </svg>
+      </label>
+      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
+        <li><%= link_to 'Edit', edit_post_path(post) %></li>
+        <li><%= button_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+      </ul>
+    </div>
+  <% end %>
+</div>
+
+
     </div>
   </div>
 </div>

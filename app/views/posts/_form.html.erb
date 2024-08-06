@@ -1,10 +1,10 @@
 <div class="bg-gray-100 min-h-screen font-playfair">
   <div class="container mx-auto p-4">
-    <div class="bg-white rounded-lg shadow p-4">
-      <h2 class="text-lg font-semibold"><%= form_title %></h2>
+    <div class="bg-blue-500 rounded-lg shadow p-8 max-w-lg mx-auto">
+      <h2 class="text-xl font-semibold mb-4"><%= form_title %></h2>
 
       <% if @post.errors.any? %>
-        <div class="alert alert-error">
+        <div class="alert alert-error mb-4">
           <ul>
             <% @post.errors.full_messages.each do |message| %>
               <li><%= message %></li>
@@ -13,67 +13,69 @@
         </div>
       <% end %>
 
-      <%= form_with(model: @post, local: true, id: 'post_form') do |form| %>
-        <div class="mb-4">
+      <%= form_with(model: @post, local: true, id: 'post_form', class: 'space-y-4') do |form| %>
+        <div>
           <%= form.label :title, class: 'block text-gray-700' %>
-          <%= form.text_field :title, class: 'form-input mt-1 block w-full' %>
+          <%= form.text_field :title, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
         </div>
         
-        <div class="mb-4">
+        <div>
           <%= form.label :post_type, 'Post Type', class: 'block text-gray-700' %>
-          <%= form.select :post_type, [['Article', 'article'], ['Video', 'video'], ['Trade Idea', 'trade_idea']], {}, class: 'form-input mt-1 block w-full', id: 'post_type_select' %>
+          <%= form.select :post_type, [['Article', 'article'], ['Video', 'video'], ['Trade Idea', 'trade_idea']], {}, class: 'form-select mt-1 block w-full border border-gray-300 rounded-md p-2', id: 'post_type_select' %>
         </div>
 
-        <div id="article_fields" class="mb-4" style="display:none;">
+        <div id="article_fields" style="display:none;">
           <%= form.label :body, 'Content', class: 'block text-gray-700' %>
-          <%= form.text_area :body, class: 'form-textarea mt-1 block w-full' %>
+          <%= form.text_area :body, class: 'form-textarea mt-1 block w-full border border-gray-300 rounded-md p-2' %>
         </div>
         
-        <div id="video_fields" class="mb-4" style="display:none;">
+        <div id="video_fields" style="display:none;">
           <%= form.label :url, 'Video URL', class: 'block text-gray-700' %>
-          <%= form.text_field :url, class: 'form-input mt-1 block w-full' %>
+          <%= form.text_field :url, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
         </div>
 
-        <div id="trade_idea_fields" class="mb-4" style="display:none;">
+        <div id="trade_idea_fields" style="display:none;">
           <%= form.fields_for :trade, @post.trade || @post.build_trade do |trade_form| %>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :stock_name, 'Stock Name', class: 'block text-gray-700' %>
-              <%= trade_form.text_field :stock_name, class: 'form-input mt-1 block w-full' %>
+              <%= trade_form.text_field :stock_name, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :executed_at, 'Executed At', class: 'block text-gray-700' %>
-              <%= trade_form.datetime_select :executed_at, class: 'form-input mt-1 block w-full' %>
+              <%= trade_form.datetime_select :executed_at, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :performance, 'Performance', class: 'block text-gray-700' %>
-              <%= trade_form.text_field :performance, class: 'form-input mt-1 block w-full' %>
+              <%= trade_form.text_field :performance, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :buy_or_sell, 'Buy or Sell', class: 'block text-gray-700' %>
-              <%= trade_form.select :buy_or_sell, [['Buy', 'buy'], ['Sell', 'sell']], {}, class: 'form-input mt-1 block w-full' %>
+              <%= trade_form.select :buy_or_sell, [['Buy', 'buy'], ['Sell', 'sell']], {}, class: 'form-select mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :quantity, 'Quantity', class: 'block text-gray-700' %>
-              <%= trade_form.number_field :quantity, class: 'form-input mt-1 block w-full' %>
+              <%= trade_form.number_field :quantity, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :price, 'Price', class: 'block text-gray-700' %>
-              <%= trade_form.text_field :price, class: 'form-input mt-1 block w-full' %>
+              <%= trade_form.text_field :price, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
-            <div class="mb-4">
+            <div>
               <%= trade_form.label :description, 'Description', class: 'block text-gray-700' %>
-              <%= trade_form.text_area :description, class: 'form-textarea mt-1 block w-full' %>
+              <%= trade_form.text_area :description, class: 'form-textarea mt-1 block w-full border border-gray-300 rounded-md p-2' %>
             </div>
           <% end %>
         </div>
         
-        <div>
-          <%= form.submit form_submit_text, class: 'btn btn-primary' %>
+        <div class="flex justify-between items-center">
+          <%= form.submit 'Submit', class: 'bg-red-500 text-white px-4 py-2 rounded' %>
+          <%= link_to 'Cancel', posts_path, class: 'bg-gray-300 text-gray-700 px-4 py-2 rounded' %>
         </div>
       <% end %>
     </div>
   </div>
 </div>
+
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
