@@ -1,4 +1,4 @@
-<div class="p-6 rounded-lg bg-gradient-to-r from-pink-500 to-orange-500 shadow-lg">
+<div class="p-6 rounded-lg bg-teal-600 shadow-lg">
   <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3 mt-4">
     <div aria-label="Card" class="card bg-white shadow text-center p-6 mx-2 rounded-lg shadow-lg">
       <div class="card-body">
@@ -14,32 +14,31 @@
       </div>
     </div>
     <div aria-label="Card" class="card bg-white shadow text-center p-6 mx-2 rounded-lg shadow-lg">
-    <div class="card-body">
-      <div class="text-sm">
-        <p class="font-medium text-gray-700">Executed At</p>
-        <div class="flex justify-center mt-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-6 4h4m-6 4v2m6-2v2m-6 4h4m4 0h1a2 2 0 0 0 2-2v-3M6 21H5a2 2 0 0 1-2-2v-3m0-3V7a2 2 0 0 1 2-2h1m0 12h4m4-3h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1m-4 5V4m0 0h-4m4 0H6m4 5v5" />
-          </svg>
-          <h5 class="inline text-xl font-semibold ml-2 text-gray-600"><%= trade.executed_at.strftime("%A, %B %d, %Y at %I:%M %p") %></h5>
+      <div class="card-body">
+        <div class="text-sm">
+          <p class="font-medium text-gray-700">Executed At</p>
+          <div class="flex justify-center mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-6 4h4m-6 4v2m6-2v2m-6 4h4m4 0h1a2 2 0 0 0 2-2v-3M6 21H5a2 2 0 0 1-2-2v-3m0-3V7a2 2 0 0 1 2-2h1m0 12h4m4-3h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1m-4 5V4m0 0h-4m4 0H6m4 5v5" />
+            </svg>
+            <h5 class="inline text-xl font-semibold ml-2 text-gray-600"><%= trade.executed_at.strftime("%A, %B %d, %Y at %I:%M %p") %></h5>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
     <div aria-label="Card" class="card bg-white shadow text-center p-6 mx-2 rounded-lg shadow-lg">
-    <div class="card-body">
-      <div class="text-sm">
-        <p class="font-medium text-gray-700">Performance</p>
-        <div class="flex justify-center mt-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-yellow-500">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 8h6m-6 8h6m-4-8V5a2 2 0 1 0-4 0v3m0 6a2 2 0 1 0 4 0v-3m4 4a2 2 0 1 0-4 0v3m0-8h6m0 0V5a2 2 0 1 0-4 0v3m0 6a2 2 0 1 0 4 0v-3m-6 6h6m-4-6h4m0 0V5a 2 2 0 1 0-4 0v3m0 6a2 2 0 1 0 4 0v-3m-6 6h6" />
-          </svg>
-          <h5 class="inline text-2xl font-semibold ml-2"><%= number_with_precision(trade.performance, precision: 3, strip_insignificant_zeros: true) %></h5>
+      <div class="card-body">
+        <div class="text-sm">
+          <p class="font-medium text-gray-700">Performance</p>
+          <div class="flex justify-center mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-yellow-500">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 8h6m-6 8h6m-4-8V5a2 2 0 1 0-4 0v3m0 6a2 2 0 1 0 4 0v-3m4 4a2 2 0 1 0-4 0v3m0-8h6m0 0V5a2 2 0 1 0-4 0v3m0 6a2 2 0 1 0 4 0v-3m-6 6h6m-4-6h4m0 0V5a 2 2 0 1 0-4 0v3m0 6a2 2 0 1 0 4 0v-3m-6 6h6" />
+            </svg>
+            <h5 class="inline text-2xl font-semibold ml-2"><%= number_with_precision(trade.performance, precision: 3, strip_insignificant_zeros: true) %></h5>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     <div aria-label="Card" class="card bg-white shadow text-center p-6 mx-2 rounded-lg shadow-lg">
       <div class="card-body">
         <div class="text-sm">
