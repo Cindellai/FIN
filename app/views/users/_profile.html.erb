@@ -50,11 +50,5 @@
       </svg>
     </a>
   </div>
-  <% if @posts.any? %>
-    <% @posts.each do |post| %>
-      <%= render 'posts/post_card', post: post %>
-    <% end %>
-  <% else %>
-    <p class="text-gray-700">No posts available.</p>
-  <% end %>
+  
 </div>

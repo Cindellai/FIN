@@ -5,58 +5,46 @@
     </figure>
   <% end %>
   <div class="card-body p-4">
-    <% if post.post_type == 'trade_idea' && post.trade.present? %>
-      <!-- Trade Idea Post -->
-      <div class="flex cursor-pointer gap-4 rounded-box bg-gradient-to-r from-blue-400 to-purple-800 p-2.5 transition-all hover:bg-base-content/10 active:scale-[.98] active:bg-base-content/15 shadow-lg">
-        <div class="grow">
-          <div class="flex">
-            <h2 class="grow font-medium card-title text-white"><%= post.title %></h2>
-            <span class="text-xs text-white"><%= post.created_at.strftime("%B %d, %Y %H:%M") %></span>
-          </div>
-          <div class="grid gap-5 lg:grid-cols-2 xl:grid-cols-3 mt-4">
-            <!-- Trade details cards -->
-           <%= render 'trades/trade_card', trade: post.trade %>
-
-          </div>
-          <div class="mt-4">
-            <h3 class="text-lg font-semibold text-gray-700">Description</h3>
-            <p class="text-gray-700"><%= post.trade.description %></p>
-          </div>
-        </div>
+    <div class="flex items-center mb-2">
+      <% if post.user.profile_picture.attached? %>
+        <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
+      <% else %>
+        <img src="/path/to/default_profile_picture.png" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
+      <% end %>
+      <div>
+        <h3 class="font-semibold text-xl"><%= post.user.username %></h3>
+        <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
       </div>
-    <% else %>
-      <!-- Regular Post -->
-      <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-        <div class="flex items-center mb-2">
-          <img src="<%= post.user.profile_picture_url %>" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
-          <div>
-            <h3 class="font-semibold text-xl"><%= post.user.username %></h3>
-            <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
-          </div>
-        </div>
-        <h2 class="font-semibold text-lg mb-2"><%= post.title %></h2>
-        <p class="mb-2"><%= post.body %></p>
-        <div class="flex justify-between items-center mt-4">
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 text-gray-500 mr-1">
-              <path d="M2.5 11.5A2.5 2.5 0 015 9h10a2.5 2.5 0 012.5 2.5v1a2.5 2.5 0 01-2.5 2.5H5a2.5 2.5 0 01-2.5-2.5v-1z" />
-              <path d="M10 2a4 4 0 00-4 4v3h8V6a4 4 0 00-4-4z" />
-            </svg>
-            <span class="text-gray-500 mr-2"><%= post.likes_count %></span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 text-gray-500 mr-1">
-              <path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V4z" />
-              <path d="M9 12.5V9h2v3.5L10 15l-1-2.5z" />
-            </svg>
-            <span class="text-gray-500"><%= post.comments_count %></span>
-          </div>
-          <div>
-            <% if current_user == post.user %>
-              <a href="<%= edit_post_path(post) %>" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Edit</a>
-              <%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'bg-gray-400 text-white px-2 py-1 rounded hover:bg-gray-500' %>
-            <% end %>
-          </div>
-        </div>
-      </div>
+    </div>
+    <h2 class="font-semibold text-lg mb-2"><%= post.title %></h2>
+    <% if post.post_type == 'article' %>
+      <p class="mb-2"><%= post.body %></p>
+    <% elsif post.post_type == 'video' %>
+      <a href="<%= post.url %>" class="text-blue-500">Watch Video</a>
+    <% elsif post.post_type == 'trade_idea' %>
+      <% if post.trade.present? %>
+        <%= render 'trades/trade_card', trade: post.trade %>
+      <% else %>
+        <p>No trade details available.</p>
+      <% end %>
     <% end %>
+    <div class="flex justify-between items-center mt-4">
+      <div class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 text-gray-500 mr-1">
+          <path d="M2.5 11.5A2.5 2.5 0 015 9h10a2.5 2.5 0 012.5 2.5v1a2.5 2.5 0 01-2.5 2.5H5a2.5 2.5 0 01-2.5-2.5v-1z"/>
+          <path d="M10 2a4 4 0 00-4 4v3h8V6a4 4 0 00-4-4z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 text-gray-500 mr-1">
+          <path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 2 0 01-2-2V4z"/>
+          <path d="M9 12.5V9h2v3.5L10 15l-1-2.5z"/>
+        </svg>
+      </div>
+      <div>
+        <% if current_user == post.user %>
+          <a href="<%= edit_post_path(post) %>" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Edit</a>
+          <%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'bg-gray-400 text-white px-2 py-1 rounded hover:bg-gray-500' %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
