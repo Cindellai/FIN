@@ -28,5 +28,5 @@ class Trade < ApplicationRecord
   belongs_to :poster, class_name: 'User'
   has_many :comments
 
-  validates :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, presence: true
+  #validates :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, presence: true
 end
