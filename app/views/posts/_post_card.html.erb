@@ -1,7 +1,8 @@
 <div class="card lg:card-side bg-white-custom shadow-xl mb-4 max-w-4xl mx-auto shadow-lg font-playfair">
   <% if post.url.present? %>
     <figure>
-      <img src="<%= post.url %>" alt="<%= post.title %>" class="object-cover w-full h-48 lg:h-auto lg:w-48"/>
+      <!-- Using Robohash for post images temporarily, remember to remove later -->
+      <img src="https://robohash.org/<%= post.title %>?size=400x400" alt="<%= post.title %>" class="object-cover w-full h-48 lg:h-auto lg:w-48"/>
     </figure>
   <% end %>
   <div class="card-body p-4">
@@ -9,7 +10,8 @@
       <% if post.user.profile_picture.attached? %>
         <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
       <% else %>
-        <img src="/path/to/default_profile_picture.png" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
+        <!-- Using Robohash for profile pictures temporarily, remember to remove later -->
+        <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
       <% end %>
       <div>
         <h3 class="font-semibold text-xl"><%= post.user.username %></h3>
@@ -41,22 +43,20 @@
         </svg>
       </div>
       <div class="card-actions justify-end mt-4 relative">
-  <% if current_user == post.user %>
-    <div class="dropdown dropdown-end z-50">
-      <label tabindex="0" class="btn btn-ghost btn-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01" />
-        </svg>
-      </label>
-      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
-        <li><%= link_to 'Edit', edit_post_path(post) %></li>
-        <li><%= button_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></li>
-      </ul>
-    </div>
-  <% end %>
-</div>
-
-
+        <% if current_user == post.user %>
+          <div class="dropdown dropdown-end z-50">
+            <label tabindex="0" class="btn btn-ghost btn-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01" />
+              </svg>
+            </label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
+              <li><%= link_to 'Edit', edit_post_path(post) %></li>
+              <li><%= button_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
