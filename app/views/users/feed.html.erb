@@ -4,7 +4,7 @@
     <h1 class="text-2xl font-semibold mb-4">Feed</h1>
     
     <% @posts.each do |post| %>
-      <%= render 'posts/post', post: post %>
+      <%= render 'posts/post_card', post: post %>
     <% end %>
     
     <% if @posts.empty? %>
