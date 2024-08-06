@@ -1,62 +1,181 @@
-<div class="card lg:card-side bg-white-custom shadow-xl mb-4 max-w-4xl mx-auto shadow-lg font-playfair">
+<div class="group card lg:card-side bg-white shadow-lg mb-6 max-w-4xl mx-auto transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-2xl rounded-lg">
   <% if post.url.present? %>
-    <figure>
-      <!-- Using Robohash for post images temporarily, remember to remove later -->
-      <img src="https://robohash.org/<%= post.title %>?size=400x400" alt="<%= post.title %>" class="object-cover w-full h-48 lg:h-auto lg:w-48"/>
+    <figure class="w-full lg:w-1/3">
+      <img src="https://robohash.org/<%= post.title %>?size=400x400" alt="<%= post.title %>" class="object-cover w-full h-full rounded-t-lg lg:rounded-l-lg lg:rounded-t-none"/>
     </figure>
   <% end %>
-  <div class="card-body p-4">
-    <div class="flex items-center mb-2">
+  <div class="card-body p-6">
+    <div class="flex items-center mb-4">
       <% if post.user.profile_picture.attached? %>
-        <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
+        <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
       <% else %>
-        <!-- Using Robohash for profile pictures temporarily, remember to remove later -->
-        <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-10 h-10 rounded-full mr-2">
+        <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
       <% end %>
       <div>
-        <h3 class="font-semibold text-xl"><%= post.user.username %></h3>
+        <h3 class="font-semibold text-lg"><%= post.user.username %></h3>
         <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
       </div>
     </div>
-    <h2 class="text-lg mb-2"><strong><%= post.title %></strong></h2>
+    <h2 class="text-2xl font-bold mb-4"><%= post.title %></h2>
 
     <% if post.post_type == 'article' %>
-      <p class="mb-2"><%= post.body %></p>
+      <p class="text-gray-700 mb-4"><%= post.body %></p>
     <% elsif post.post_type == 'video' %>
-      <a href="<%= post.url %>" class="text-blue-500">Watch Video</a>
+      <a href="<%= post.url %>" class="text-blue-600 hover:underline">Watch Video</a>
     <% elsif post.post_type == 'trade_idea' %>
       <% if post.trade.present? %>
         <%= render 'trades/trade_card', trade: post.trade %>
       <% else %>
-        <p>No trade details available.</p>
+        <p class="text-red-500">No trade details available.</p>
       <% end %>
     <% end %>
-    <div class="flex justify-between items-center mt-4">
-      <div class="flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 text-gray-500 mr-1">
-          <path d="M2.5 11.5A2.5 2.5 0 015 9h10a2.5 2.5 0 012.5 2.5v1a2.5 2.5 0 01-2.5 2.5H5a2.5 2.5 0 01-2.5-2.5v-1z"/>
-          <path d="M10 2a4 4 0 00-4 4v3h8V6a4 4 0 00-4-4z"/>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 text-gray-500 mr-1">
-          <path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 2 0 01-2-2V4z"/>
-          <path d="M9 12.5V9h2v3.5L10 15l-1-2.5z"/>
-        </svg>
-      </div>
-      <div class="card-actions justify-end mt-4 relative">
-        <% if current_user == post.user %>
-          <div class="dropdown dropdown-end z-50">
-            <label tabindex="0" class="btn btn-ghost btn-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01" />
-              </svg>
-            </label>
-            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
-              <li><%= link_to 'Edit', edit_post_path(post) %></li>
-              <li><%= button_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></li>
-            </ul>
+
+    <!-- Expandable Metrics Section -->
+    <% if post.trade.present? %>
+      <button class="btn btn-primary mt-4" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
+      <div id="metrics-<%= post.id %>" class="hidden mt-4">
+        <div aria-label="Card" class="card bg-base-100 card-bordered">
+          <div class="card-body p-0">
+            <div class="flex items-center justify-between px-5 pt-4">
+              <span class="font-medium">Financial Metrics</span>
+            </div>
+            <div class="mt-2 border-y border-base-content/10 py-2">
+              <div class="grid grid-cols-3 gap-5 divide-x divide-base-content/10">
+                <% if post.trade.stock_name.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Stock Name</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.stock_name %></p>
+                  </div>
+                <% end %>
+                <% if post.trade.quantity.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Quantity</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.quantity %></p>
+                  </div>
+                <% end %>
+                <% if post.trade.price.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Price</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.price, precision: 2, delimiter: ',') %></p>
+                  </div>
+                <% end %>
+                <% if post.trade.performance.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Performance</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.performance, precision: 3) %></p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="overflow-hidden rounded-lg">
+                <div id="financial-metrics-chart-<%= post.id %>" style="min-height: 210px;"></div>
+              </div>
+            </div>
           </div>
-        <% end %>
+        </div>
+        <!-- Revenue Statistics Card -->
+        <div aria-label="Card" class="card bg-base-100 card-bordered mt-4">
+          <div class="card-body px-0 pb-0">
+            <div class="px-6">
+              <div class="flex items-center justify-between">
+                <span class="font-medium">Revenue Statistics</span>
+                <div role="tablist" class="tabs tabs-boxed tabs-sm">
+                  <a role="tab" class="tab">Day</a>
+                  <a role="tab" class="tab">Month</a>
+                  <a role="tab" class="tab tab-active">Year</a>
+                </div>
+              </div>
+              <div class="mt-2 flex items-center gap-3">
+                <% revenue = post.trade.quantity * post.trade.price %>
+                <span class="text-4xl font-semibold">$<%= number_with_precision(revenue / 1000.0, precision: 2, delimiter: ',') %>K</span>
+                <span class="text-sm font-medium text-success">+8.24%</span>
+              </div>
+              <span class="text-sm text-base-content/70">Total income in this year</span>
+            </div>
+            <div class="overflow-hidden rounded-xl">
+              <div id="revenue-statistics-chart-<%= post.id %>" style="min-height: 295px;"></div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>
+
+<script>
+  function initializeCharts(postId) {
+    var options = {
+      chart: {
+        height: 210,
+        type: 'area'
+      },
+      series: [{
+        name: 'Active Sessions',
+        data: Array.from({ length: 9 }, () => Math.floor(Math.random() * 100))
+      }],
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+      },
+      tooltip: {
+        enabled: true
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector(`#financial-metrics-chart-${postId}`), options);
+    chart.render();
+
+    var revenueOptions = {
+      chart: {
+        type: 'bar',
+        height: 280,
+        toolbar: {
+          show: false
+        }
+      },
+      series: [{
+        name: 'Trades',
+        data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 5000))
+      }, {
+        name: 'Revenue',
+        data: Array.from({ length: 10 }, () => (Math.random() * 5000).toFixed(2))
+      }],
+      xaxis: {
+        categories: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
+      },
+      tooltip: {
+        y: {
+          formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+            return seriesIndex === 1 ? `$${parseFloat(value).toFixed(2)}K` : value;
+          }
+        }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+          endingShape: 'rounded'
+        },
+      },
+      legend: {
+        position: 'bottom',
+        horizontalAlign: 'center'
+      },
+      dataLabels: {
+        enabled: false
+      }
+    };
+
+    var revenueChart = new ApexCharts(document.querySelector(`#revenue-statistics-chart-${postId}`), revenueOptions);
+    revenueChart.render();
+  }
+
+  function toggleMetrics(postId) {
+    const metricsSection = document.getElementById(`metrics-${postId}`);
+    metricsSection.classList.toggle('hidden');
+    if (!metricsSection.classList.contains('hidden')) {
+      initializeCharts(postId);
+    }
+  }
+</script>
+
