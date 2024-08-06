@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show]
+  # before_action :authenticate_user!, only: [:show] # Comment out this line to disable authentication
   before_action :set_user, only: [:show]
 
   def index
@@ -30,10 +30,7 @@ class UsersController < ApplicationController
     @posts = Post.order(created_at: :desc).includes(:user, :trade)
     Rails.logger.debug "Fetched feed posts: #{@posts.inspect}"
   end
-  
 
-
-  
   private
 
   def set_user
