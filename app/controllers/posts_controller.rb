@@ -1,6 +1,10 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_post, only: [:edit, :update, :show, :destroy] # Ensure only defined actions are listed here
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_post, only: [:edit, :update, :show, :destroy]
+
+  def index
+    @posts = Post.all.order(created_at: :desc)
+  end
 
   def new
     @post = Post.new
@@ -46,6 +50,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :post_type, :url, trade_attributes: [:stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description])
+    params.require(:post).permit(:title, :body, :post_type, :url, trade_attributes: [:id, :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, :_destroy, :poster_id])
   end
 end

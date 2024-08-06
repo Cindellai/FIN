@@ -36,6 +36,7 @@
 
         <div id="trade_idea_fields" style="display:none;">
           <%= form.fields_for :trade, @post.trade || @post.build_trade do |trade_form| %>
+            <%= trade_form.hidden_field :poster_id, value: current_user.id %>
             <div>
               <%= trade_form.label :stock_name, 'Stock Name', class: 'block text-gray-700' %>
               <%= trade_form.text_field :stock_name, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
@@ -68,14 +69,13 @@
         </div>
         
         <div class="flex justify-between items-center">
-          <%= form.submit 'Submit', class: 'bg-red-500 text-white px-4 py-2 rounded' %>
+          <%= form.submit @form_submit_text, class: 'bg-red-500 text-white px-4 py-2 rounded' %>
           <%= link_to 'Cancel', posts_path, class: 'bg-gray-300 text-gray-700 px-4 py-2 rounded' %>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
