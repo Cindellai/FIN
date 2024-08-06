@@ -27,9 +27,12 @@ class UsersController < ApplicationController
   end
 
   def feed
-    @posts = current_user.feed
+    @posts = Post.order(created_at: :desc).includes(:user, :trade)
     Rails.logger.debug "Fetched feed posts: #{@posts.inspect}"
   end
+  
+
+
   
   private
 
