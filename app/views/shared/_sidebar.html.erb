@@ -1,0 +1,24 @@
+<!-- app/views/shared/_sidebar.html.erb -->
+<div class="w-1/4 bg-blue-500 bg-opacity-75 p-4 h-screen sticky top-0 flex flex-col">
+  <h2 class="text-xl font-semibold text-gray-100 mb-4">Subscriptions</h2>
+  <% if @user.subscriptions.any? %>
+    <ul class="space-y-4">
+      <% @user.subscriptions.each do |subscription| %>
+        <li class="flex items-center space-x-4 border-b border-gray-200 pb-4 mb-4">
+          <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+            <% if subscription.trader.profile_picture.attached? %>
+              <img src="<%= url_for(subscription.trader.profile_picture) %>" alt="<%= subscription.trader.username %>" class="w-full h-full object-cover" />
+            <% else %>
+              <div class="flex items-center justify-center h-full">
+                <span class="text-gray-700 text-lg">No Image</span>
+              </div>
+            <% end %>
+          </div>
+          <span class="text-gray-100 font-medium">@<%= subscription.trader.username %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-100">You are not subscribed to any creators.</p>
+  <% end %>
+</div>

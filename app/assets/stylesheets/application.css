@@ -24,3 +24,25 @@
   height: 100%;
   object-fit: cover;
 }
+
+.profile-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.side-nav {
+  width: 25%;
+  padding-right: 1rem;
+}
+
+.main-content {
+  width: 75%;
+}

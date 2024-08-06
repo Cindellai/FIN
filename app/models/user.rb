@@ -61,6 +61,10 @@ class User < ApplicationRecord
     role == false
   end
 
+  def feed_posts
+    Post.where(user_id: subscribed_traders.pluck(:id)).order(created_at: :desc)
+  end
+
   def feed
     Post.where(user_id: subscribed_traders).order(created_at: :desc)
   end

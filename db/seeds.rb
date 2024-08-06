@@ -9,24 +9,23 @@ Post.destroy_all
 Subscription.destroy_all
 User.destroy_all
 
-# Create users
-users = []
-5.times do |i|
-  is_creator = i.even? # Every alternate user is a creator
+# Create specific creators
+creators = []
+4.times do |i|
   user = User.create!(
     username: Faker::Internet.username,
     bio: Faker::Lorem.sentence,
     email: Faker::Internet.email,
     password: 'password',
-    role: is_creator # Assuming role is a boolean indicating creator status
+    role: true # Indicating creator status
   )
 
-  users << user
+  creators << user
 end
 
-# Create posts only for creators
-users.select { |user| user.role }.each do |user|
-  3.times do
+# Create posts for the specific creators
+creators.each do |user|
+  5.times do
     post_type = ['article', 'video', 'trade_idea'].sample
 
     body_content = case post_type
@@ -60,9 +59,9 @@ users.select { |user| user.role }.each do |user|
       )
 
       # Create comments for each trade
-      3.times do
+      5.times do
         Comment.create!(
-          user: users.sample, # Random user for comments
+          user: creators.sample, # Random user for comments
           trade: trade,
           post: post,
           body: Faker::Lorem.sentence
@@ -71,9 +70,9 @@ users.select { |user| user.role }.each do |user|
     end
 
     # Create comments for each post
-    3.times do
+    5.times do
       Comment.create!(
-        user: users.sample, # Random user for comments
+        user: creators.sample, # Random user for comments
         post: post,
         body: Faker::Lorem.sentence
       )
@@ -81,12 +80,26 @@ users.select { |user| user.role }.each do |user|
   end
 end
 
-# Create subscriptions
-users.each do |user|
-  next if user.role # Skip creators
+# Create additional users
+additional_users = []
+16.times do |i|
+  is_creator = false # Additional users are not creators
+  user = User.create!(
+    username: Faker::Internet.username,
+    bio: Faker::Lorem.sentence,
+    email: Faker::Internet.email,
+    password: 'password',
+    role: is_creator # Indicating non-creator status
+  )
 
-  creators = users.select { |u| u.role }
-  subscribed_creators = creators.sample(2) # Each user subscribes to 2 random creators
+  additional_users << user
+end
+
+users = creators + additional_users
+
+# Create subscriptions
+additional_users.each do |user|
+  subscribed_creators = creators.sample(2) # Each non-creator subscribes to 2 random specific creators
 
   subscribed_creators.each do |creator|
     Subscription.create!(
@@ -101,4 +114,3 @@ users.each do |user|
 end
 
 puts "Seeded #{User.count} users, #{Post.count} posts, #{Trade.count} trades, #{Subscription.count} subscriptions, and #{Comment.count} comments."
-

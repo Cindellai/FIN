@@ -1,13 +1,25 @@
-<div class="bg-gray-100 min-h-screen font-sans shadow-lg rounded-lg">
-  <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-semibold mb-8 text-gray-800">Feed</h1>
+<!-- app/views/users/feed.html.erb -->
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <%= render 'shared/sidebar', user: current_user %>
+    <!-- Side Navigation -->
     
-    <% @posts.each do |post| %>
-      <%= render 'posts/post_card', post: post %>
-    <% end %>
-    
-    <% if @posts.empty? %>
-      <p class="text-gray-700 text-center">No posts available.</p>
-    <% end %>
+
+    <!-- Main Content -->
+    <div class="w-3/4">
+    <!-- Search Bar -->
+  <div class="bg-white shadow p-4">
+    <div class="container mx-auto flex justify-center">
+      <input type="text" placeholder="Search in community like post, tag, feature, ..." class="input input-bordered w-full max-w-2xl">
+    </div>
+  </div>
+      <% if @posts.present? && @posts.any? %>
+        <% @posts.each do |post| %>
+          <%= render 'posts/post_card', post: post %>
+        <% end %>
+      <% else %>
+        <p class="text-gray-700">No posts available.</p>
+      <% end %>
+    </div>
   </div>
 </div>
