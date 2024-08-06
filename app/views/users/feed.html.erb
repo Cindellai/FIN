@@ -1,33 +1,14 @@
-<!-- app/views/users/feed.html.erb -->
-
-<div class="container mx-auto p-4">
-  <h1 class="text-3xl font-semibold mb-4">Your Feed</h1>
-  <% @posts.each do |post| %>
-    <div class="bg-white rounded-lg shadow p-4 mb-4">
-      <h2 class="text-2xl font-semibold"><%= post.title %></h2>
-      <p class="text-gray-600"><%= post.created_at.strftime("%B %d, %Y %H:%M") %></p>
-      <div class="mt-2">
-        <% if post.post_type == 'article' %>
-          <p><%= post.body %></p>
-        <% elsif post.post_type == 'video' %>
-          <a href="<%= post.url %>" class="text-blue-500">Watch Video</a>
-        <% elsif post.post_type == 'trade_idea' %>
-          <div>
-            <p><strong>Stock Name:</strong> <%= post.trade.stock_name %></p>
-            <p><strong>Executed At:</strong> <%= post.trade.executed_at.strftime("%B %d, %Y %H:%M") %></p>
-            <p><strong>Performance:</strong> <%= post.trade.performance %></p>
-            <p><strong>Buy or Sell:</strong> <%= post.trade.buy_or_sell %></p>
-            <p><strong>Quantity:</strong> <%= post.trade.quantity %></p>
-            <p><strong>Price:</strong> <%= post.trade.price %></p>
-          </div>
-        <% end %>
-        <% if current_user == post.user %>
-          <div class="flex items-center mt-4">
-            <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-primary mr-2' %>
-            <%= button_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+<!-- app/views/posts/feed.html.erb -->
+<div class="bg-gray-100 min-h-screen font-playfair">
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-semibold mb-4">Feed</h1>
+    
+    <% @posts.each do |post| %>
+      <%= render 'posts/post', post: post %>
+    <% end %>
+    
+    <% if @posts.empty? %>
+      <p class="text-gray-700">No posts available.</p>
+    <% end %>
+  </div>
 </div>
