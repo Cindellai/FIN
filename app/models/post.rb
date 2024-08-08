@@ -27,5 +27,6 @@ class Post < ApplicationRecord
   validates :body, presence: true, if: -> { post_type != 'trade_idea' }
   validates :post_type, presence: true
   accepts_nested_attributes_for :trade, allow_destroy: true
+  has_one_attached :file
 end
  

@@ -50,6 +50,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :post_type, :url, trade_attributes: [:id, :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, :_destroy, :poster_id])
+    params.require(:post).permit(:title, :body, :post_type, :url, :file, trade_attributes: [:id, :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, :_destroy, :poster_id])
   end
 end

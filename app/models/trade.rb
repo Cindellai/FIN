@@ -29,4 +29,5 @@ class Trade < ApplicationRecord
   has_many :comments
 
   #validates :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, presence: true
+  #comments
 end

@@ -1,94 +1,50 @@
-<div class="bg-gray-100 min-h-screen font-playfair">
-  <div class="container mx-auto p-4">
-    <div class="bg-blue-500 rounded-lg shadow p-8 max-w-lg mx-auto">
-      <h2 class="text-xl font-semibold mb-4"><%= form_title %></h2>
+<div class="flex items-center justify-center p-12">
+  <div class="mx-auto w-full max-w-[550px] bg-white rounded-md shadow-md">
+    <%= form_with(model: @post, local: true, html: { class: 'py-6 px-9 font-inter', multipart: true }) do |form| %>
+      <div class="mb-5">
+        <%= form.label :title, "Header", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
+        <%= form.text_field :title, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "What's Up" %>
+      </div>
 
-      <% if @post.errors.any? %>
-        <div class="alert alert-error mb-4">
-          <ul>
-            <% @post.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <div class="mb-5">
+        <%= form.label :body, "Body", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
+        <%= form.text_area :body, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Write text here" %>
+      </div>
 
-      <%= form_with(model: @post, local: true, id: 'post_form', class: 'space-y-4') do |form| %>
-        <div>
-          <%= form.label :title, class: 'block text-gray-700' %>
-          <%= form.text_field :title, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-        </div>
-        
-        <div>
-          <%= form.label :post_type, 'Post Type', class: 'block text-gray-700' %>
-          <%= form.select :post_type, [['Article', 'article'], ['Video', 'video'], ['Trade Idea', 'trade_idea']], {}, class: 'form-select mt-1 block w-full border border-gray-300 rounded-md p-2', id: 'post_type_select' %>
-        </div>
+      <div class="mb-5">
+        <%= form.label :post_type, "Post Type", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
+        <%= form.select :post_type, [['Regular Post', 'regular'], ['Trade Idea', 'trade_idea'], ['Video', 'video']], {}, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md' %>
+      </div>
 
-        <div id="article_fields" style="display:none;">
-          <%= form.label :body, 'Content', class: 'block text-gray-700' %>
-          <%= form.text_area :body, class: 'form-textarea mt-1 block w-full border border-gray-300 rounded-md p-2' %>
+      <div id="video_fields" class="mb-6 pt-4 hidden">
+        <label class="mb-5 block text-xl font-semibold text-[#07074D]">Upload Video</label>
+        <div class="mb-8">
+          <%= form.file_field :file, class: 'sr-only', id: 'file' %>
+          <label for="file" class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
+            <div>
+              <span class="mb-2 block text-xl font-semibold text-[#07074D]">Drop files here</span>
+              <span class="mb-2 block text-base font-medium text-[#6B7280]">Or</span>
+              <span class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">Browse</span>
+            </div>
+          </label>
         </div>
-        
-        <div id="video_fields" style="display:none;">
-          <%= form.label :url, 'Video URL', class: 'block text-gray-700' %>
-          <%= form.text_field :url, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-        </div>
+      </div>
 
-        <div id="trade_idea_fields" style="display:none;">
-          <%= form.fields_for :trade, @post.trade || @post.build_trade do |trade_form| %>
-            <%= trade_form.hidden_field :poster_id, value: current_user.id %>
-            <div>
-              <%= trade_form.label :stock_name, 'Stock Name', class: 'block text-gray-700' %>
-              <%= trade_form.text_field :stock_name, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-            <div>
-              <%= trade_form.label :executed_at, 'Executed At', class: 'block text-gray-700' %>
-              <%= trade_form.datetime_select :executed_at, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-            <div>
-              <%= trade_form.label :performance, 'Performance', class: 'block text-gray-700' %>
-              <%= trade_form.text_field :performance, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-            <div>
-              <%= trade_form.label :buy_or_sell, 'Buy or Sell', class: 'block text-gray-700' %>
-              <%= trade_form.select :buy_or_sell, [['Buy', 'buy'], ['Sell', 'sell']], {}, class: 'form-select mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-            <div>
-              <%= trade_form.label :quantity, 'Quantity', class: 'block text-gray-700' %>
-              <%= trade_form.number_field :quantity, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-            <div>
-              <%= trade_form.label :price, 'Price', class: 'block text-gray-700' %>
-              <%= trade_form.text_field :price, class: 'form-input mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-            <div>
-              <%= trade_form.label :description, 'Description', class: 'block text-gray-700' %>
-              <%= trade_form.text_area :description, class: 'form-textarea mt-1 block w-full border border-gray-300 rounded-md p-2' %>
-            </div>
-          <% end %>
-        </div>
-        
-        <div class="flex justify-between items-center">
-          <%= form.submit @form_submit_text, class: 'bg-red-500 text-white px-4 py-2 rounded' %>
-          <%= link_to 'Cancel', posts_path, class: 'bg-gray-300 text-gray-700 px-4 py-2 rounded' %>
-        </div>
-      <% end %>
-    </div>
+      <div>
+        <%= form.submit @form_submit_text, class: 'hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none' %>
+      </div>
+    <% end %>
   </div>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const postTypeSelect = document.getElementById('post_type_select');
-    const articleFields = document.getElementById('article_fields');
+    const postTypeSelect = document.getElementById('post_post_type');
     const videoFields = document.getElementById('video_fields');
-    const tradeIdeaFields = document.getElementById('trade_idea_fields');
 
     function toggleFields() {
       const selectedType = postTypeSelect.value;
-      articleFields.style.display = selectedType === 'article' ? 'block' : 'none';
       videoFields.style.display = selectedType === 'video' ? 'block' : 'none';
-      tradeIdeaFields.style.display = selectedType === 'trade_idea' ? 'block' : 'none';
     }
 
     postTypeSelect.addEventListener('change', toggleFields);
