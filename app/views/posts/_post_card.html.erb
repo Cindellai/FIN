@@ -1,15 +1,28 @@
 <div class="group card lg:card-side bg-white shadow-lg mb-6 max-w-4xl mx-auto transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-2xl rounded-lg">
-
   <div class="card-body p-6">
-    <div class="flex items-center mb-4">
-      <% if post.user.profile_picture.attached? %>
-        <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
-      <% else %>
-        <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
-      <% end %>
-      <div>
-        <h3 class="font-semibold text-lg"><%= post.user.username %></h3>
-        <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center">
+        <% if post.user.profile_picture.attached? %>
+          <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
+        <% else %>
+          <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
+        <% end %>
+        <div>
+          <h3 class="font-semibold text-lg"><%= post.user.username %></h3>
+          <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
+        </div>
+      </div>
+      <!-- Ellipsis menu for edit and delete -->
+      <div class="relative">
+        <button type="button" onclick="toggleMenu(this)" class="focus:outline-none">
+          <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4z" />
+          </svg>
+        </button>
+        <div class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10 group-hover:block">
+          <a href="<%= edit_post_path(post) %>" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Edit</a>
+          <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'block px-4 py-2 text-gray-800 hover:bg-gray-200' %>
+        </div>
       </div>
     </div>
     <h2 class="text-2xl font-bold mb-4"><%= post.title %></h2>
@@ -28,9 +41,7 @@
 
     <!-- Expandable Metrics Section -->
     <% if post.trade.present? %>
-<button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 text-black" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
-
-
+      <button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 text-black" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
       <div id="metrics-<%= post.id %>" class="hidden mt-4">
         <div aria-label="Card" class="card bg-base-100 card-bordered">
           <div class="card-body p-0">
@@ -85,7 +96,7 @@
                 </div>
               </div>
               <div class="mt-2 flex items-center gap-3">
-                <% revenue = post.trade.quantity * post.trade.price %>
+                <% revenue = (post.trade.quantity || 0) * (post.trade.price || 0) %>
                 <span class="text-4xl font-semibold">$<%= number_with_precision(revenue / 1000.0, precision: 2, delimiter: ',') %>K</span>
                 <span class="text-sm font-medium text-success">+8.24%</span>
               </div>
@@ -174,5 +185,10 @@
     if (!metricsSection.classList.contains('hidden')) {
       initializeCharts(postId);
     }
+  }
+
+  function toggleMenu(button) {
+    const menu = button.nextElementSibling;
+    menu.classList.toggle('hidden');
   }
 </script>
