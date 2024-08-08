@@ -28,4 +28,171 @@
     <h2 class="text-2xl font-bold mb-4"><%= post.title %></h2>
 
     <% if post.post_type == 'regular' %>
-      <p class="text-gray-
+      <p class="text-gray-700 mb-4"><%= post.body %></p>
+      <% if post.file.attached? %>
+        <video controls class="w-full mt-4">
+          <source src="<%= url_for(post.file) %>" type="<%= post.file.content_type %>">
+          Your browser does not support the video tag.
+        </video>
+      <% end %>
+    <% elsif post.post_type == 'trade_idea' %>
+      <% if post.trade.present? %>
+        <%= render 'trades/trade_card', trade: post.trade %>
+      <% else %>
+        <p class="text-red-500">No trade details available.</p>
+      <% end %>
+    <% end %>
+
+    <!-- Expandable Metrics Section -->
+    <% if post.trade.present? %>
+      <button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 text-black" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
+      <div id="metrics-<%= post.id %>" class="hidden mt-4">
+        <div aria-label="Card" class="card bg-base-100 card-bordered">
+          <div class="card-body p-0">
+            <div class="flex items-center justify-between px-5 pt-4">
+              <span class="font-medium">Financial Metrics</span>
+            </div>
+            <div class="mt-2 border-y border-base-content/10 py-2">
+              <div class="grid grid-cols-3 gap-5 divide-x divide-base-content/10">
+                <% if post.trade.stock_name.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Stock Name</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.stock_name %></p>
+                  </div>
+                <% end %>
+                <% if post.trade.quantity.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Quantity</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.quantity %></p>
+                  </div>
+                <% end %>
+                <% if post.trade.price.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Price</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.price, precision: 2, delimiter: ',') %></p>
+                  </div>
+                <% end %>
+                <% if post.trade.performance.present? %>
+                  <div class="text-center">
+                    <p class="text-base font-medium">Performance</p>
+                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.performance, precision: 3) %></p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="overflow-hidden rounded-lg">
+                <div id="financial-metrics-chart-<%= post.id %>" style="min-height: 210px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Revenue Statistics Card -->
+        <div aria-label="Card" class="card bg-base-100 card-bordered mt-4">
+          <div class="card-body px-0 pb-0">
+            <div class="px-6">
+              <div class="flex items-center justify-between">
+                <span class="font-medium">Revenue Statistics</span>
+                <div role="tablist" class="tabs tabs-boxed tabs-sm">
+                  <a role="tab" class="tab">Day</a>
+                  <a role="tab" class="tab">Month</a>
+                  <a role="tab" class="tab tab-active">Year</a>
+                </div>
+              </div>
+              <div class="mt-2 flex items-center gap-3">
+                <% revenue = (post.trade.quantity || 0) * (post.trade.price || 0) %>
+                <span class="text-4xl font-semibold">$<%= number_with_precision(revenue / 1000.0, precision: 2, delimiter: ',') %>K</span>
+                <span class="text-sm font-medium text-success">+8.24%</span>
+              </div>
+              <span class="text-sm text-base-content/70">Total income in this year</span>
+            </div>
+            <div class="overflow-hidden rounded-xl">
+              <div id="revenue-statistics-chart-<%= post.id %>" style="min-height: 295px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function initializeCharts(postId) {
+    var options = {
+      chart: {
+        height: 210,
+        type: 'area'
+      },
+      series: [{
+        name: 'Active Sessions',
+        data: Array.from({ length: 9 }, () => Math.floor(Math.random() * 100))
+      }],
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+      },
+      tooltip: {
+        enabled: true
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector(`#financial-metrics-chart-${postId}`), options);
+    chart.render();
+
+    var revenueOptions = {
+      chart: {
+        type: 'bar',
+        height: 280,
+        toolbar: {
+          show: false
+        }
+      },
+      series: [{
+        name: 'Trades',
+        data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 5000))
+      }, {
+        name: 'Revenue',
+        data: Array.from({ length: 10 }, () => (Math.random() * 5000).toFixed(2))
+      }],
+      xaxis: {
+        categories: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
+      },
+      tooltip: {
+        y: {
+          formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+            return seriesIndex === 1 ? `$${parseFloat(value).toFixed(2)}K` : value;
+          }
+        }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+          endingShape: 'rounded'
+        },
+      },
+      legend: {
+        position: 'bottom',
+        horizontalAlign: 'center'
+      },
+      dataLabels: {
+        enabled: false
+      }
+    };
+
+    var revenueChart = new ApexCharts(document.querySelector(`#revenue-statistics-chart-${postId}`), revenueOptions);
+    revenueChart.render();
+  }
+
+  function toggleMetrics(postId) {
+    const metricsSection = document.getElementById(`metrics-${postId}`);
+    metricsSection.classList.toggle('hidden');
+    if (!metricsSection.classList.contains('hidden')) {
+      initializeCharts(postId);
+    }
+  }
+
+  function toggleMenu(button) {
+    const menu = button.nextElementSibling;
+    menu.classList.toggle('hidden');
+  }
+</script>
