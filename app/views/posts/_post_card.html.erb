@@ -1,3 +1,5 @@
+<!-- app/views/posts/_post_card.html.erb -->
+
 <div class="group card lg:card-side bg-white shadow-lg mb-6 max-w-4xl mx-auto transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-2xl rounded-lg">
   <div class="card-body p-6">
     <div class="flex items-center justify-between mb-4">
@@ -12,26 +14,27 @@
           <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
         </div>
       </div>
-      <!-- Ellipsis menu for edit and delete -->
-      <div class="relative">
-        <button type="button" onclick="toggleMenu(this)" class="focus:outline-none">
-          <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4z" />
-          </svg>
-        </button>
-        <div class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10 group-hover:block">
-          <a href="<%= edit_post_path(post) %>" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Edit</a>
-          <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'block px-4 py-2 text-gray-800 hover:bg-gray-200' %>
+      <% if current_user == post.user %>
+        <div class="relative">
+          <button type="button" onclick="toggleMenu(this)" class="focus:outline-none">
+            <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4z" />
+            </svg>
+          </button>
+          <div class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10 group-hover:block">
+            <a href="<%= edit_user_post_path(post.user, post) %>" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Edit</a>
+            <%= link_to 'Delete', [post.user, post], method: :delete, data: { confirm: 'Are you sure?' }, class: 'block px-4 py-2 text-gray-800 hover:bg-gray-200' %>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
     <h2 class="text-2xl font-bold mb-4"><%= post.title %></h2>
 
     <% if post.post_type == 'regular' %>
       <p class="text-gray-700 mb-4"><%= post.body %></p>
       <% if post.file.attached? %>
-        <video controls class="w-full mt-4">
-          <source src="<%= url_for(post.file) %>" type="<%= post.file.content_type %>">
+        <video controls class="w-full">
+          <source src="<%= url_for(post.file) %>" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       <% end %>
@@ -44,7 +47,7 @@
     <% end %>
 
     <!-- Expandable Metrics Section -->
-    <% if post.trade.present? %>
+    <% if post.post_type == 'trade_idea' && post.trade.present? %>
       <button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 text-black" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
       <div id="metrics-<%= post.id %>" class="hidden mt-4">
         <div aria-label="Card" class="card bg-base-100 card-bordered">

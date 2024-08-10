@@ -1,46 +1,51 @@
+<!-- app/views/posts/_form.html.erb -->
 <div class="flex items-center justify-center p-12">
   <div class="mx-auto w-full max-w-[550px] bg-white rounded-md shadow-md">
-    <%= form_with(model: @post, local: true, html: { class: 'py-6 px-9 font-inter', multipart: true }) do |form| %>
+    <%= form_with(model: [@user, @post], local: true, html: { class: 'py-6 px-9 font-inter', multipart: true, id: 'post_form' }) do |form| %>
+      <div class="mb-5">
+        <%= form.label :post_type, "Post Type", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
+        <%= form.select :post_type, [['Announcement', 'regular'], ['Stock Option', 'trade_idea']], {}, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', id: 'post_type_select' %>
+      </div>
       <div class="mb-5">
         <%= form.label :title, "Header", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
         <%= form.text_field :title, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "What's Up" %>
       </div>
 
-      <div class="mb-5">
-        <%= form.label :body, "Body", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
-        <%= form.text_area :body, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Write text here" %>
-      </div>
-
-      <div class="mb-5">
-        <%= form.label :post_type, "Post Type", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
-        <%= form.select :post_type, [['Regular Post', 'regular'], ['Trade Idea', 'trade_idea']], {}, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', id: 'post_type_select' %>
-      </div>
-
-      <div id="video_upload" class="mb-6 pt-4">
-        <label class="mb-5 block text-xl font-semibold text-[#07074D]">Upload Video</label>
-        <div class="mb-8">
-          <%= form.file_field :file, class: 'sr-only', id: 'file' %>
-          <label for="file" class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
-            <div>
-              <span class="mb-2 block text-xl font-semibold text-[#07074D]">Drop files here</span>
-              <span class="mb-2 block text-base font-medium text-[#6B7280]">Or</span>
-              <span class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">Browse</span>
-            </div>
-          </label>
+      <div id="regular_fields" class="mb-6">
+        <div class="mb-5">
+          <%= form.label :body, "Body", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
+          <%= form.text_area :body, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Write text here" %>
+        </div>
+        <div class="mb-6">
+          <label class="mb-5 block text-xl font-semibold text-[#07074D]">Upload Video (MP4 only)</label>
+          <div class="mb-8">
+            <%= form.file_field :file, class: 'sr-only', id: 'file' %>
+            <label for="file" class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
+              <div>
+                <span class="mb-2 block text-xl font-semibold text-[#07074D]">Drop files here</span>
+                <span class="mb-2 block text-base font-medium text-[#6B7280]">Or</span>
+                <span class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">Browse</span>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
 
-      <div id="trade_fields" class="mb-6 pt-4 hidden">
+      <div id="trade_fields" class="mb-6 hidden">
         <%= form.fields_for :trade, @post.build_trade do |trade_form| %>
           <%= trade_form.hidden_field :poster_id, value: current_user.id %>
           <div class="mb-5">
             <%= trade_form.label :stock_name, "Stock Name", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
             <%= trade_form.text_field :stock_name, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Stock Name" %>
           </div>
+         
+         <!-- Calendar -->
           <div class="mb-5">
             <%= trade_form.label :executed_at, "Executed At", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
             <%= trade_form.datetime_select :executed_at, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md' %>
           </div>
+
+
           <div class="mb-5">
             <%= trade_form.label :performance, "Performance", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
             <%= trade_form.text_field :performance, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Performance" %>
@@ -57,15 +62,11 @@
             <%= trade_form.label :price, "Price", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
             <%= trade_form.text_field :price, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Price" %>
           </div>
-          <div class="mb-5">
-            <%= trade_form.label :description, "Description", class: 'mb-3 block text-base font-medium text-[#07074D]' %>
-            <%= trade_form.text_area :description, class: 'w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md', placeholder: "Description" %>
-          </div>
         <% end %>
       </div>
 
       <div>
-        <%= form.submit @form_submit_text, class: 'hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none' %>
+        <%= form.submit @form_submit_text, class: 'hover:shadow-form w-full rounded-md bg-teal-500 py-3 px-8 text-center text-base font-semibold text-white outline-none' %>
       </div>
     <% end %>
   </div>
@@ -74,14 +75,32 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const postTypeSelect = document.getElementById('post_type_select');
+    const regularFields = document.getElementById('regular_fields');
     const tradeFields = document.getElementById('trade_fields');
+    const fileInput = document.getElementById('file');
+    const postForm = document.getElementById('post_form');
 
     function toggleFields() {
       const selectedType = postTypeSelect.value;
-      tradeFields.style.display = selectedType === 'trade_idea' ? 'block' : 'none';
+      if (selectedType === 'trade_idea') {
+        tradeFields.classList.remove('hidden');
+        regularFields.classList.add('hidden');
+      } else {
+        tradeFields.classList.add('hidden');
+        regularFields.classList.remove('hidden');
+      }
     }
 
     postTypeSelect.addEventListener('change', toggleFields);
     toggleFields(); // Initial call to set the correct fields on page load
+
+    postForm.addEventListener('submit', function(event) {
+      const file = fileInput.files[0];
+      if (file && file.type !== 'video/mp4') {
+        event.preventDefault();
+        alert('Please upload a video file in MP4 format.');
+      }
+    });
   });
 </script>
+
