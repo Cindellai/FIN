@@ -57,20 +57,18 @@ class User < ApplicationRecord
   scope :students, -> { where(role: false) }
   
   # Methods to check user roles
-  def trader?
+  def creator?
     role == true
   end
 
-  def student?
+  def novice?
     role == false
   end
 
   def feed_posts
     Post.where(user_id: subscribed_traders.pluck(:id)).order(created_at: :desc)
-  end
 
-  def feed
-    Post.where(user_id: subscribed_traders).order(created_at: :desc)
-  end
 
+
+end
 end

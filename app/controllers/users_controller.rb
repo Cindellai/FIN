@@ -9,6 +9,11 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def feed
+    @user = current_user
+    @posts = @user.feed_posts
+  end
+
   def update
     if @user.update(user_params)
       redirect_to @user, notice: 'Profile was successfully updated.'
@@ -16,7 +21,7 @@ class UsersController < ApplicationController
       render :edit
     end
   end
-
+  
   private
 
   def set_user

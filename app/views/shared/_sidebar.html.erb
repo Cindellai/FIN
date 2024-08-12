@@ -1,27 +1,20 @@
-<!-- app/views/shared/_sidebar.html.erb -->
-<div class="w-1/4 bg-teal-500 bg-opacity-55 shadow-lg p-4 h-screen sticky top-0 flex flex-col">
+<div class="h-screen overflow-y-auto bg-white border-r w-80 shadow-lg fixed top-16 left-0 z-20"> <!-- Adjusted top positioning and z-index -->
+  <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white mt-4">Subscriptions</h2>
 
-<div class="flex justify-center">
-  <h2 class="text-xl font-semibold text-gray-100 mb-4">Subscriptions</h2>
-</div>
-  <% if @user.subscriptions.any? %>
-    <ul class="space-y-4">
-      <% @user.subscriptions.each do |subscription| %>
-        <li class="flex items-center space-x-4 border-b border-gray-200 pb-4 mb-4">
-          <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-            <% if subscription.trader.profile_picture.attached? %>
-              <img src="<%= url_for(subscription.trader.profile_picture) %>" alt="<%= subscription.trader.username %>" class="w-full h-full object-cover" />
-            <% else %>
-              <div class="flex items-center justify-center h-full">
-                <span class="text-gray-700 text-lg">No Image</span>
-              </div>
-            <% end %>
+  <% if current_user && current_user.subscriptions.any? %>
+    <div class="mt-8 space-y-4">
+      <!-- Subscription user item -->
+      <% current_user.subscriptions.each do |subscription| %>
+        <button class="flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
+          <img class="object-cover w-8 h-8 rounded-full" src="<%= subscription.trader.profile_picture.attached? ? url_for(subscription.trader.profile_picture) : 'https://via.placeholder.com/64' %>" alt="<%= subscription.trader.username %>">
+          
+          <div class="text-left rtl:text-right">
+            <h1 class="text-sm font-medium text-gray-700 capitalize dark:text-white">@<%= subscription.trader.username %></h1>
           </div>
-          <span class="text-gray-100 font-medium">@<%= subscription.trader.username %></span>
-        </li>
+        </button>
       <% end %>
-    </ul>
+    </div>
   <% else %>
-    <p class="text-gray-100">You are not subscribed to any creators.</p>
+    <p class="text-gray-500 dark:text-gray-400 px-5">You are not subscribed to any creators.</p>
   <% end %>
 </div>

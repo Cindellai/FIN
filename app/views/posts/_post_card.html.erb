@@ -1,54 +1,26 @@
-<!-- app/views/posts/_post_card.html.erb -->
-
 <div class="group card lg:card-side bg-white shadow-lg mb-6 max-w-4xl mx-auto transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-2xl rounded-lg">
   <div class="card-body p-6">
-    <div class="flex items-center justify-between mb-4">
-      <div class="flex items-center">
-        <% if post.user.profile_picture.attached? %>
-          <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
-        <% else %>
-          <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
-        <% end %>
-        <div>
-          <h3 class="font-semibold text-lg"><%= post.user.username %></h3>
-          <span class="text-gray-500 text-sm"><%= post.created_at.strftime("%B %Y") %></span>
-        </div>
-      </div>
-      <% if current_user == post.user %>
-        <div class="relative">
-          <button type="button" onclick="toggleMenu(this)" class="focus:outline-none">
-            <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4z" />
-            </svg>
-          </button>
-          <div class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10 group-hover:block">
-            <a href="<%= edit_user_post_path(post.user, post) %>" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Edit</a>
-            <%= link_to 'Delete', [post.user, post], method: :delete, data: { confirm: 'Are you sure?' }, class: 'block px-4 py-2 text-gray-800 hover:bg-gray-200' %>
-          </div>
-        </div>
+    <div class="flex items-center mb-4">
+      <% if post.user.profile_picture.attached? %>
+        <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
+      <% else %>
+        <img src="https://robohash.org/<%= post.user.username %>?size=50x50" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
       <% end %>
+      <div>
+        <h3 class="font-semibold text-lg"><%= post.user.username %></h3>
+      </div>
     </div>
     <h2 class="text-2xl font-bold mb-4"><%= post.title %></h2>
 
     <% if post.post_type == 'regular' %>
       <p class="text-gray-700 mb-4"><%= post.body %></p>
-      <% if post.file.attached? %>
-        <video controls class="w-full">
-          <source src="<%= url_for(post.file) %>" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      <% end %>
-    <% elsif post.post_type == 'trade_idea' %>
-      <% if post.trade.present? %>
-        <%= render 'trades/trade_card', trade: post.trade %>
-      <% else %>
-        <p class="text-red-500">No trade details available.</p>
-      <% end %>
-    <% end %>
+    <% elsif post.post_type == 'video' %>
+      <a href="<%= post.url %>" class="text-blue-600 hover:underline">Watch Video</a>
+    <% elsif post.post_type == 'trade_idea' && post.trade.present? %>
+      <%= render 'trades/trade_card', trade: post.trade %>
 
-    <!-- Expandable Metrics Section -->
-    <% if post.post_type == 'trade_idea' && post.trade.present? %>
-      <button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 text-black" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
+      <!-- Expandable Metrics Section for Trade Posts -->
+      <button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
       <div id="metrics-<%= post.id %>" class="hidden mt-4">
         <div aria-label="Card" class="card bg-base-100 card-bordered">
           <div class="card-body p-0">
@@ -90,112 +62,34 @@
             </div>
           </div>
         </div>
-        <!-- Revenue Statistics Card -->
-        <div aria-label="Card" class="card bg-base-100 card-bordered mt-4">
-          <div class="card-body px-0 pb-0">
-            <div class="px-6">
-              <div class="flex items-center justify-between">
-                <span class="font-medium">Revenue Statistics</span>
-                <div role="tablist" class="tabs tabs-boxed tabs-sm">
-                  <a role="tab" class="tab">Day</a>
-                  <a role="tab" class="tab">Month</a>
-                  <a role="tab" class="tab tab-active">Year</a>
-                </div>
-              </div>
-              <div class="mt-2 flex items-center gap-3">
-                <% revenue = (post.trade.quantity || 0) * (post.trade.price || 0) %>
-                <span class="text-4xl font-semibold">$<%= number_with_precision(revenue / 1000.0, precision: 2, delimiter: ',') %>K</span>
-                <span class="text-sm font-medium text-success">+8.24%</span>
-              </div>
-              <span class="text-sm text-base-content/70">Total income in this year</span>
-            </div>
-            <div class="overflow-hidden rounded-xl">
-              <div id="revenue-statistics-chart-<%= post.id %>" style="min-height: 295px;"></div>
-            </div>
-          </div>
-        </div>
       </div>
     <% end %>
+
+    <div class="flex justify-end mt-6">
+      <span class="text-sm text-gray-500"><%= time_ago_in_words(post.created_at) %> ago</span>
+    </div>
+
+    <!-- Actions (Comments, Share, Save) -->
+    <div class="border-t mt-2 pt-1 flex justify-around text-gray-600"> <!-- Adjusted padding and margin -->
+      <div class="flex items-center space-x-1"> <!-- Adjusted spacing -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <!-- Adjusted icon size -->
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 14a2 2 0 01-2 2H5l-4 4V4a2 2 0 012-2h14a2 2 0 012 2v10z" />
+        </svg>
+        <span class="text-sm">Comments</span> <!-- Adjusted font size -->
+      </div>
+      <div class="flex items-center space-x-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.707-4.707a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414L18 14l-3-3-4 4H5v-5l5-5z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9a2 2 0 002-2v-3.586a1 1 0 00-.293-.707l-2-2a1 1 0 00-.707-.293H13l-2 2v4h1v2z" />
+        </svg>
+        <span class="text-sm">Share</span>
+      </div>
+      <div class="flex items-center space-x-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11h14M5 8h14m-7 8v4l-7-4m0 0l7-4" />
+        </svg>
+        <span class="text-sm">Saved</span>
+      </div>
+    </div>
   </div>
 </div>
-
-<script>
-  function initializeCharts(postId) {
-    var options = {
-      chart: {
-        height: 210,
-        type: 'area'
-      },
-      series: [{
-        name: 'Active Sessions',
-        data: Array.from({ length: 9 }, () => Math.floor(Math.random() * 100))
-      }],
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-      },
-      tooltip: {
-        enabled: true
-      }
-    };
-
-    var chart = new ApexCharts(document.querySelector(`#financial-metrics-chart-${postId}`), options);
-    chart.render();
-
-    var revenueOptions = {
-      chart: {
-        type: 'bar',
-        height: 280,
-        toolbar: {
-          show: false
-        }
-      },
-      series: [{
-        name: 'Trades',
-        data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 5000))
-      }, {
-        name: 'Revenue',
-        data: Array.from({ length: 10 }, () => (Math.random() * 5000).toFixed(2))
-      }],
-      xaxis: {
-        categories: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
-      },
-      tooltip: {
-        y: {
-          formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
-            return seriesIndex === 1 ? `$${parseFloat(value).toFixed(2)}K` : value;
-          }
-        }
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded'
-        },
-      },
-      legend: {
-        position: 'bottom',
-        horizontalAlign: 'center'
-      },
-      dataLabels: {
-        enabled: false
-      }
-    };
-
-    var revenueChart = new ApexCharts(document.querySelector(`#revenue-statistics-chart-${postId}`), revenueOptions);
-    revenueChart.render();
-  }
-
-  function toggleMetrics(postId) {
-    const metricsSection = document.getElementById(`metrics-${postId}`);
-    metricsSection.classList.toggle('hidden');
-    if (!metricsSection.classList.contains('hidden')) {
-      initializeCharts(postId);
-    }
-  }
-
-  function toggleMenu(button) {
-    const menu = button.nextElementSibling;
-    menu.classList.toggle('hidden');
-  }
-</script>

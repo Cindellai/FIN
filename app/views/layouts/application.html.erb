@@ -18,8 +18,12 @@
   <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css');</style>
   <style>
     body {
-      font-family: 'Playfair Display';font-size: 22px;
+      font-family: 'Playfair Display';
+      font-size: 22px;
     }
+    h1 {
+  font-size: 36px; /* Increase size of h1 headers */
+}
     .btn-ghost:hover {
       background-color: #f3f4f6; /* Light gray background on hover */
     }
@@ -78,10 +82,6 @@
     .font-playfair {
       font-family: 'Playfair Display', serif;
     }
-  </style>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/flowbite@1.6.5/dist/datepicker.js"></script>
-  <style>
     :root {
       --purplish-grey: #f0f0f0; /* Very light grey */
       --dark-blue: #1e3a8a;
@@ -98,6 +98,8 @@
     }
     .content {
       flex: 1;
+      padding-top: 6rem; /* Ensure content is pushed below the navbar */
+      font-size: 22px; /* Maintain the desired font size */
     }
     .bg-custom-purple {
       background-color: var(--purplish-grey);

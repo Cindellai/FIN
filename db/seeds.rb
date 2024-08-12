@@ -1,6 +1,5 @@
-# db/seeds.rb
-
 require 'faker'
+require 'open-uri'
 
 # Clear existing data
 Comment.destroy_all
@@ -8,6 +7,12 @@ Trade.destroy_all
 Post.destroy_all
 Subscription.destroy_all
 User.destroy_all
+
+# Sample profile pictures
+profile_pictures = [
+  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&h=880&q=80",
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=faceare&facepad=3&w=688&h=688&q=100"
+]
 
 # Create specific creators
 creators = []
@@ -17,8 +22,14 @@ creators = []
     bio: Faker::Lorem.sentence,
     email: Faker::Internet.email,
     password: 'password',
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
     role: true # Indicating creator status
   )
+
+  # Attach profile picture
+  file = URI.open(profile_pictures.sample)
+  user.profile_picture.attach(io: file, filename: "profile_picture#{i}.jpg", content_type: 'image/jpg')
 
   creators << user
 end
@@ -57,25 +68,6 @@ creators.each do |user|
         description: Faker::Lorem.paragraph,
         poster: user # Assuming poster refers to the user who created the trade
       )
-
-      # Create comments for each trade
-      5.times do
-        Comment.create!(
-          user: creators.sample, # Random user for comments
-          trade: trade,
-          post: post,
-          body: Faker::Lorem.sentence
-        )
-      end
-    end
-
-    # Create comments for each post
-    5.times do
-      Comment.create!(
-        user: creators.sample, # Random user for comments
-        post: post,
-        body: Faker::Lorem.sentence
-      )
     end
   end
 end
@@ -89,8 +81,14 @@ additional_users = []
     bio: Faker::Lorem.sentence,
     email: Faker::Internet.email,
     password: 'password',
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
     role: is_creator # Indicating non-creator status
   )
+
+  # Attach profile picture
+  file = URI.open(profile_pictures.sample)
+  user.profile_picture.attach(io: file, filename: "profile_picture#{i + 4}.jpg", content_type: 'image/jpg')
 
   additional_users << user
 end
@@ -113,4 +111,4 @@ additional_users.each do |user|
   end
 end
 
-puts "Seeded #{User.count} users, #{Post.count} posts, #{Trade.count} trades, #{Subscription.count} subscriptions, and #{Comment.count} comments."
+puts "Seeded #{User.count} users, #{Post.count} posts, #{Trade.count} trades, #{Subscription.count} subscriptions."
