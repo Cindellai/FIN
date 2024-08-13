@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update]
+  before_action :hide_footer, only: [:feed]
+
 
   def show
     @posts = @user.posts.order(created_at: :desc)
@@ -21,12 +23,21 @@ class UsersController < ApplicationController
       render :edit
     end
   end
-  
+
   private
 
-  def set_user
-    @user = User.find(params[:id])
+  def hide_footer
+    @hide_footer = true
   end
+
+  def set_user
+  @user = User.find_by(id: params[:id])
+  unless @user
+    flash[:alert] = "User not found."
+    redirect_to root_path # Redirect to a safe path, e.g., home page
+  end
+end
+
 
   def user_params
     params.require(:user).permit(:username, :bio, :profile_picture)

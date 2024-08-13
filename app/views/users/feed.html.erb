@@ -1,10 +1,9 @@
-<div class="flex min-h-screen">
+<div class="flex min-h-screen pt-16"> <!-- Adjusted the padding to push the content down -->
   <!-- Sidebar -->
-  <%= render 'shared/sidebar' %> <!-- Render the sidebar partial here -->
+  <%= render 'shared/sidebar', user: current_user %>
 
   <!-- Main Content -->
-  <div class="w-full ml-64 p-4"> <!-- Reduced margin-left to bring the content closer to the sidebar -->
-    <h1 class="text-2xl font-semibold mb-4">Feed</h1>
+  <div class="flex-grow p-8">
     <% if @posts.present? && @posts.any? %>
       <% @posts.each do |post| %>
         <%= render 'posts/post_card', post: post %>

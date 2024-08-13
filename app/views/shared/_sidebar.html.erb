@@ -1,20 +1,15 @@
-<div class="h-screen overflow-y-auto bg-white border-r w-80 shadow-lg fixed top-16 left-0 z-20"> <!-- Adjusted top positioning and z-index -->
-  <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white mt-4">Subscriptions</h2>
-
-  <% if current_user && current_user.subscriptions.any? %>
-    <div class="mt-8 space-y-4">
-      <!-- Subscription user item -->
-      <% current_user.subscriptions.each do |subscription| %>
-        <button class="flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
-          <img class="object-cover w-8 h-8 rounded-full" src="<%= subscription.trader.profile_picture.attached? ? url_for(subscription.trader.profile_picture) : 'https://via.placeholder.com/64' %>" alt="<%= subscription.trader.username %>">
-          
-          <div class="text-left rtl:text-right">
-            <h1 class="text-sm font-medium text-gray-700 capitalize dark:text-white">@<%= subscription.trader.username %></h1>
-          </div>
-        </button>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="text-gray-500 dark:text-gray-400 px-5">You are not subscribed to any creators.</p>
-  <% end %>
+<div class="w-80 pr-4 bg-white shadow-lg rounded-lg p-4 fixed top-16 left-0 h-full overflow-y-auto">
+  <h2 class="text-xl font-semibold mb-4">Following</h2>
+  <ul class="space-y-4">
+    <% current_user.subscribed_traders.each do |trader| %>
+      <li class="flex items-center p-2 bg-gray-100 rounded-xl">
+        <% if trader.profile_picture.attached? %>
+          <%= image_tag trader.profile_picture, class: 'w-12 h-12 rounded-full object-cover mr-4' %>
+        <% else %>
+          <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
+        <% end %>
+        <%= link_to "#{trader.first_name} #{trader.last_name}", user_path(trader), class: 'text-black font-medium' %>
+      </li>
+    <% end %>
+  </ul>
 </div>
