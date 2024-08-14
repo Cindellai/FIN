@@ -1,9 +1,11 @@
-<div class="flex min-h-screen pt-16"> <!-- Adjusted the padding to push the content down -->
+<div class="flex  container bg-gray-400 mx-auto pt-16">
   <!-- Sidebar -->
-  <%= render 'shared/sidebar', user: current_user %>
+  <div class="w-1/4 pr-4">
+    <%= render 'shared/sidebar', user: current_user %>
+  </div>
 
   <!-- Main Content -->
-  <div class="flex-grow p-8">
+  <div class="w-3/4 bg-gray-400 mx-auto">
     <% if @posts.present? && @posts.any? %>
       <% @posts.each do |post| %>
         <%= render 'posts/post_card', post: post %>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'news/index'
   get 'home/index'
   devise_for :users, controllers: {
     registrations: 'registrations',
@@ -19,4 +20,8 @@ Rails.application.routes.draw do
   resources :comments
 
   get 'feed', to: 'users#feed', as: 'user_feed'
+
+  # Add a route for the news page
+  get 'news', to: 'news#index', as: 'news_page'
+  get 'discover', to: 'discover#index', as: 'discover_page'
 end

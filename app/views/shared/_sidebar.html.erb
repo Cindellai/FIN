@@ -1,15 +1,66 @@
-<div class="w-80 pr-4 bg-white shadow-lg rounded-lg p-4 fixed top-16 left-0 h-full overflow-y-auto">
-  <h2 class="text-xl font-semibold mb-4">Following</h2>
+<div class="w-72 bg-white shadow-lg rounded-xl p-4 fixed top-39 left-10 right-10 h-300 overflow-y-auto border border-gray-200 card">
+  <h2 class="text-xl font-semibold mb-4 text-center">Following</h2>
   <ul class="space-y-4">
-    <% current_user.subscribed_traders.each do |trader| %>
-      <li class="flex items-center p-2 bg-gray-100 rounded-xl">
+    <% current_user.subscribed_traders.limit(6).each do |trader| %>
+      <li class="flex items-center p-2 hover:bg-gray-100 rounded-lg transition">
         <% if trader.profile_picture.attached? %>
-          <%= image_tag trader.profile_picture, class: 'w-12 h-12 rounded-full object-cover mr-4' %>
+          <%= image_tag trader.profile_picture, class: 'w-12 h-12 rounded-xl object-cover mr-4' %>
         <% else %>
-          <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
+          <div class="w-12 h-12 rounded-xl bg-gray-300 mr-4"></div>
         <% end %>
-        <%= link_to "#{trader.first_name} #{trader.last_name}", user_path(trader), class: 'text-black font-medium' %>
+        <%= link_to "#{trader.first_name} #{trader.last_name}", user_path(trader), class: 'text-black text-sm font-medium' %>
       </li>
     <% end %>
   </ul>
+  <div class="mt-4 text-center">
+    <%= link_to subscriptions_path(current_user), class: "group relative min-h-[50px] w-40 overflow-hidden border border-transparent bg-white text-blue-green-300 shadow-2xl transition-all before:absolute before:left-0 before:top-0 before:h-0 before:w-1/4 before:bg-purple-500 before:duration-500 after:absolute after:bottom-0 after:right-0 after:h-0 after:w-1/4 after:bg-purple-500 after:duration-500 hover:text-white hover:before:h-full hover:after:h-full focus:outline-none" do %>
+      <span class="absolute bottom-0 left-0 right-0 top-0 z-10 flex h-full w-full items-center justify-center group-hover:text-white">View All</span>
+    <% end %>
+  </div>
 </div>
+
+
+<style>
+  /* Sidebar Background */
+  .bg-white {
+    background-color: #ffffff;
+  }
+
+  /* Hover effect on list items */
+  .hover\:bg-gray-100:hover {
+    background-color: #f3f4f6; /* Slightly lighter gray */
+  }
+
+  /* Rounded corners for list items */
+  .rounded-lg {
+    border-radius: 12px; /* Adjusted to match the reference image */
+  }
+
+  /* Adding a subtle shadow to profile pictures */
+  .shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Styling for the trader names */
+  .font-semibold {
+    font-weight: 600;
+  }
+
+  .text-base {
+    font-size: 16px; /* Slightly smaller font size for trader names */
+  }
+
+  /* Transition effect for hover */
+  .transition {
+    transition: background-color 0.3s ease;
+  }
+
+  /* Adjusting padding for list items */
+  .p-2 {
+    padding: 0.5rem; /* 8px padding for the list items */
+  }
+
+  .rounded-full {
+    border-radius: 50%; /* Ensuring circular profile pictures */
+  }
+</style>
