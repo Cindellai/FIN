@@ -1,16 +1,20 @@
-<div class="navbar bg-white shadow-md bg px-4 py-2 flex justify-between items-center">
+<div class="navbar bg-white shadow-md px-4 py-2 flex justify-between items-center fixed top-0 left-0 w-full z-20">
   <div class="flex items-center">
     <div class="flex items-center mr-2">
-   <a class="text-3xl font-bold text-green-800 normal-case ml-4">FairTrade</a>
-
+      <a class="text-3xl font-bold text-green-800 normal-case ml-4">FairTrade</a>
     </div>
   </div>
   <div class="flex space-x-4 items-center">
     <a href="/" class="nav-link btn btn-ghost rounded-full">Home</a>
-    <a href="/feed" class="nav-link btn btn-ghost rounded-full">Feed</a>
-    <a href="/users/:id" class="nav-link btn btn-ghost rounded-full ">Profile</a>
-    <a href="/signup" class="btn btn-primary rounded-full bg-yellow-300 text-black">Sign up</a>
-    
+    <% if user_signed_in? %>
+      <a href="<%= user_path(current_user) %>" class="nav-link btn btn-ghost rounded-full">Profile</a>
+      <a href="/feed" class="nav-link btn btn-ghost rounded-full">Feed</a>
+      <a href="/news" class="nav-link btn btn-ghost rounded-full">News</a>
+      <a href="/discover" class="nav-link btn btn-ghost rounded-full">Discover</a>
+      <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-primary rounded-full bg-yellow-300 text-black' %>
+    <% else %>
+      <%= link_to 'Sign in', new_user_session_path, class: 'btn btn-ghost btn btn-primary rounded-full bg-yellow-300 text-black' %>
+    <% end %>
   </div>
 </div>
 
@@ -22,5 +26,8 @@
   .nav-link:hover {
     background-color: black;
     color: white;
+  }
+  .navbar {
+    height: 64px; /* Adjust this to the height of your navbar */
   }
 </style>

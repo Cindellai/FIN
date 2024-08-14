@@ -1,17 +1,27 @@
 Rails.application.routes.draw do
+  get 'news/index'
   get 'home/index'
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: 'registrations',
+    sessions: 'sessions'
   }
 
   root 'home#index'
 
-  resources :users, only: [:index, :show, :edit, :update]
-  resources :posts, only: [:new, :create, :edit, :update, :show, :index, :destroy]
+  resources :users, only: [:show, :edit, :update] do
+    member do
+      patch :set_creator_role
+    end
+    resources :posts, only: [:new, :create, :edit, :update, :destroy]
+  end
+
   resources :subscriptions
   resources :trades
   resources :comments
 
-  get 'users/:id', to: 'users#show', as: 'user_profile'
   get 'feed', to: 'users#feed', as: 'user_feed'
+
+  # Add a route for the news page
+  get 'news', to: 'news#index', as: 'news_page'
+  get 'discover', to: 'discover#index', as: 'discover_page'
 end

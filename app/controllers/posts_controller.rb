@@ -1,55 +1,54 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_post, only: [:edit, :update, :show, :destroy]
-
-  def index
-    @posts = Post.all.order(created_at: :desc)
-  end
+  before_action :authenticate_user!
+  before_action :set_user
+  before_action :set_post, only: [:edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def new
-    @post = Post.new
-    @form_submit_text = "Create Post"
+    @post = @user.posts.build
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = @user.posts.build(post_params)
     @post.user = current_user
     if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      redirect_to @user, notice: 'Post was successfully created.'
     else
-      @form_submit_text = "Create Post"
       render :new
     end
   end
 
   def edit
-    @form_submit_text = "Update Post"
   end
 
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: 'Post was successfully updated.'
+      redirect_to @user, notice: 'Post was successfully updated.'
     else
-      @form_submit_text = "Update Post"
       render :edit
     end
   end
 
-  def show
-  end
-
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: 'Post was successfully destroyed.'
+    redirect_to @user, notice: 'Post was successfully destroyed.'
   end
 
   private
 
+  def set_user
+    @user = User.find(params[:user_id])
+  end
+
   def set_post
-    @post = Post.find(params[:id])
+    @post = @user.posts.find(params[:id])
+  end
+
+  def authorize_user!
+    redirect_to @user, alert: 'You are not authorized to perform this action.' unless @post.user == current_user
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :post_type, :url, trade_attributes: [:id, :stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :description, :_destroy, :poster_id])
+    params.require(:post).permit(:title, :body, :post_type, :file, trade_attributes: [:stock_name, :executed_at, :performance, :buy_or_sell, :quantity, :price, :poster_id])
   end
 end

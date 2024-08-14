@@ -6,6 +6,8 @@
 #  bio                    :text
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  first_name             :string
+#  last_name              :string
 #  profile_picture        :string
 #  rating                 :float
 #  remember_created_at    :datetime
@@ -46,6 +48,8 @@ class User < ApplicationRecord
 
   # Validations
   validates :username, presence: true, uniqueness: true
+  validates :first_name, presence: true 
+  validates :last_name, presence: true
 
   # Scope to get only traders
   scope :traders, -> { where(role: true) }
@@ -53,20 +57,18 @@ class User < ApplicationRecord
   scope :students, -> { where(role: false) }
   
   # Methods to check user roles
-  def trader?
+  def creator?
     role == true
   end
 
-  def student?
+  def novice?
     role == false
   end
 
   def feed_posts
     Post.where(user_id: subscribed_traders.pluck(:id)).order(created_at: :desc)
-  end
 
-  def feed
-    Post.where(user_id: subscribed_traders).order(created_at: :desc)
-  end
 
+
+end
 end

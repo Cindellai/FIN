@@ -22,10 +22,23 @@
 #
 class Post < ApplicationRecord
   belongs_to :user
-  has_one :trade, dependent: :destroy                                           
+  has_one :trade, dependent: :destroy        
+  has_one_attached :file
+
   validates :title, presence: true
   validates :body, presence: true, if: -> { post_type != 'trade_idea' }
   validates :post_type, presence: true
+  validate :correct_file_mime_type
+
   accepts_nested_attributes_for :trade, allow_destroy: true
+
+  private
+
+  def correct_file_mime_type
+    if file.attached? && !file.content_type.in?(%w(video/mp4))
+      errors.add(:file, 'must be an MP4 file')
+      file.purge
+    end
+  end
 end
  

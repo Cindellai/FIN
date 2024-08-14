@@ -1,0 +1,26 @@
+<% if flash.any? %>
+  <div class="fixed top-4 right-4 z-50">
+    <% flash.each do |type, message| %>
+      <div class="mb-4 p-4 rounded-lg shadow-md <%= alert_class_for(type) %>">
+        <div class="flex items-center justify-between">
+          <p class="text-sm text-white"><%= message %></p>
+          <button type="button" class="text-white" onclick="this.parentElement.parentElement.remove()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+      document.querySelectorAll('.fixed.top-4.right-4.z-50 > div').forEach(function(alert) {
+        alert.remove();
+      });
+    }, 5000);
+  });
+</script>
