@@ -14,7 +14,14 @@ class UsersController < ApplicationController
   def feed
     @user = current_user
     @posts = @user.feed_posts
+
+    # Determine trending topics based on the most common topics in posts
+    @trending_topics = Post.trending_topics.limit(5) # Adjust the limit as needed
+
+    # Who to know logic
+    @who_to_know = User.where.not(id: @user.id).limit(5)
   end
+
 
   def update
     if @user.update(user_params)

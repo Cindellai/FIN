@@ -1,0 +1,18 @@
+<div class="max-w-sm rounded-lg bg-blue-800 overflow-hidden shadow-lg m-4 mr-20">
+  <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Trending Topics</h2>
+  <hr class="border-gray-600">
+  
+  <% trending_topics.each_with_index do |topic, index| %>
+    <div class="flex">
+      <p class="px-4 ml-2 mt-3 w-48 text-xs text-gray-400"><%= index + 1 %>. Trending</p>
+      <h2 class="px-4 ml-2 w-48 font-bold text-white"><%= topic %></h2>
+    </div>
+    <hr class="border-gray-600">
+  <% end %>
+  
+  <div class="flex">
+    <div class="flex-1 p-4">
+      <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+    </div>
+  </div>
+</div>

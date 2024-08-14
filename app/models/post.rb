@@ -7,6 +7,7 @@
 #  content_type :string
 #  post_type    :string
 #  title        :string
+#  topic        :string
 #  url          :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -40,5 +41,8 @@ class Post < ApplicationRecord
       file.purge
     end
   end
+
+  scope :trending_topics, -> { select(:topic).group(:topic).order('count_id DESC').count(:id).keys }
+
 end
  

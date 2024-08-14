@@ -1,11 +1,11 @@
-<div class="flex  container bg-gray-400 mx-auto pt-16">
+<div class="flex container bg-gray-400 mx-auto pt-16">
   <!-- Sidebar -->
   <div class="w-1/4 pr-4">
     <%= render 'shared/sidebar', user: current_user %>
   </div>
 
   <!-- Main Content -->
-  <div class="w-3/4 bg-gray-400 mx-auto">
+  <div class="w-2/4 bg-gray-400 mx-auto">
     <% if @posts.present? && @posts.any? %>
       <% @posts.each do |post| %>
         <%= render 'posts/post_card', post: post %>
@@ -13,5 +13,11 @@
     <% else %>
       <p class="text-gray-700">No posts available.</p>
     <% end %>
+  </div>
+
+  <!-- Right Menu -->
+  <div class="w-1/4">
+    <%= render 'shared/trending' %>
+    <%= render 'shared/WTK' %>
   </div>
 </div>
