@@ -1,0 +1,32 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Discover New Users Section -->
+  <div>
+    <h2 class="text-3xl font-bold mb-6 text-center text-gray-200">Discover New Users</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+      <% if @users.present? %>
+        <% @users.each do |user| %>
+          <div class="card bg-base-100 shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer" onclick="window.location.href='<%= user_path(user) %>'">
+            <figure class="relative p-4">
+              <img
+                src="<%= user.profile_picture.attached? ? url_for(user.profile_picture) : 'default_avatar_url_here' %>"
+                alt="<%= user.username %>"
+                class="rounded-full w-32 h-32 object-cover mx-auto shadow-md transform hover:scale-110 transition-transform duration-200 ease-in-out" />
+              <div class="absolute bottom-4 right-4">
+                <button class="btn btn-primary btn-sm">Follow</button>
+              </div>
+            </figure>
+            <div class="card-body items-center text-center p-6">
+              <h3 class="card-title text-xl font-semibold text-gray-200"><%= user.first_name %> <%= user.last_name %></h3>
+              <p class="text-sm text-gray-400"><%= truncate(user.bio, length: 80) %></p>
+              <div class="mt-4">
+                <button class="btn btn-secondary w-full transition-all duration-300 ease-in-out transform hover:scale-105">View Profile</button>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-center text-gray-500 col-span-full">No users found.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

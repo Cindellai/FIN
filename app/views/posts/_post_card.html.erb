@@ -1,6 +1,6 @@
-<div class="group card lg:card-side bg-white shadow-lg mb-6 max-w-3xl mx-auto transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-2xl rounded-xl">
-  <div class="card-body p-4"> <!-- Adjusted padding to p-4 from p-6 -->
-    <div class="flex items-center mb-4">
+<div class="group card bg-white shadow-lg mb-6 max-w-3xl mx-auto transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-2xl rounded-xl">
+  <div class="card-body p-4">
+    <div class="mb-4 flex items-center">
       <% if post.user.profile_picture.attached? %>
         <img src="<%= url_for(post.user.profile_picture) %>" alt="<%= post.user.username %>" class="w-12 h-12 rounded-full mr-4 shadow-md">
       <% else %>
@@ -10,11 +10,11 @@
         <h3 class="font-semibold text-lg font-system"><%= "#{post.user.first_name} #{post.user.last_name}" %></h3>
       </div>
     </div>
-    <h2 class="text-lg hover:underline font-bold font-system mb-4"><%= post.title %></h2>
 
-    <% if post.post_type == 'regular' %>
-      <p class="text-gray-700 text-sm mb-4 font-system"><%= post.body %></p>
-    <% elsif post.post_type == 'video' %>
+    <h2 class="text-lg hover:underline font-bold font-system mb-4"><%= post.title %></h2>
+    <p class="text-gray-700 text-sm mb-4 font-system"><%= post.body %></p>
+
+    <% if post.post_type == 'video' %>
       <a href="<%= post.url %>" class="text-blue-600 hover:underline font-system">Watch Video</a>
     <% elsif post.post_type == 'trade_idea' && post.trade.present? %>
       <%= render 'trades/trade_card', trade: post.trade %>
@@ -22,42 +22,45 @@
       <!-- Expandable Metrics Section for Trade Posts -->
       <button class="bg-teal-500 bg-opacity-35 shadow-lg btn btn-primary mt-4 font-system" onclick="toggleMetrics(<%= post.id %>)">Show Metrics</button>
       <div id="metrics-<%= post.id %>" class="hidden mt-4">
-        <div aria-label="Card" class="card bg-base-100 card-bordered">
+        <div aria-label="Card" class="card bg-white border border-gray-300 rounded-lg shadow-lg">
           <div class="card-body p-0">
-            <div class="flex items-center justify-between px-5 pt-4">
-              <span class="font-medium font-system">Financial Metrics</span>
+            <div class="px-5 pt-4">
+              <span class="font-medium font-system text-gray-700">Financial Metrics</span>
             </div>
-            <div class="mt-2 border-y border-base-content/10 py-2">
-              <div class="grid grid-cols-3 gap-5 divide-x divide-base-content/10">
+            <div class="mt-2 border-y border-gray-300 py-2">
+              <div class="grid grid-cols-3 gap-5 divide-x divide-gray-300">
                 <% if post.trade.stock_name.present? %>
                   <div class="text-center font-system">
-                    <p class="text-base font-medium">Stock Name</p>
-                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.stock_name %></p>
+                    <p class="text-base font-medium text-gray-700">Stock Name</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-800"><%= post.trade.stock_name %></p>
                   </div>
                 <% end %>
                 <% if post.trade.quantity.present? %>
                   <div class="text-center font-system">
-                    <p class="text-base font-medium">Quantity</p>
-                    <p class="mt-1 text-2xl font-semibold"><%= post.trade.quantity %></p>
+                    <p class="text-base font-medium text-gray-700">Quantity</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-800"><%= post.trade.quantity %></p>
                   </div>
                 <% end %>
                 <% if post.trade.price.present? %>
                   <div class="text-center font-system">
-                    <p class="text-base font-medium">Price</p>
-                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.price, precision: 2, delimiter: ',') %></p>
+                    <p class="text-base font-medium text-gray-700">Price</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-800"><%= number_with_precision(post.trade.price, precision: 2, delimiter: ',') %></p>
                   </div>
                 <% end %>
                 <% if post.trade.performance.present? %>
                   <div class="text-center font-system">
-                    <p class="text-base font-medium">Performance</p>
-                    <p class="mt-1 text-2xl font-semibold"><%= number_with_precision(post.trade.performance, precision: 3) %></p>
+                    <p class="text-base font-medium text-gray-700">Performance</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-800"><%= number_with_precision(post.trade.performance, precision: 3) %></p>
                   </div>
                 <% end %>
               </div>
             </div>
             <div class="p-5 font-system">
               <div class="overflow-hidden rounded-lg">
-                <div id="financial-metrics-chart-<%= post.id %>" style="min-height: 210px;"></div>
+                <div id="performance-chart-<%= post.id %>" class="bg-white" style="min-height: 210px;"></div>
+              </div>
+              <div class="overflow-hidden rounded-lg mt-4">
+                <div id="quantity-price-chart-<%= post.id %>" class="bg-white" style="min-height: 210px;"></div>
               </div>
             </div>
           </div>
@@ -70,12 +73,12 @@
     </div>
 
     <!-- Actions (Comments, Share, Save) -->
-    <div class="border-t mt-2 pt-1 flex justify-around text-gray-600 font-system"> <!-- Adjusted padding and margin -->
-      <div class="flex items-center space-x-1"> <!-- Adjusted spacing -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <!-- Adjusted icon size -->
+    <div class="border-t mt-2 pt-1 flex justify-around text-gray-600 font-system">
+      <div class="flex items-center space-x-1" onclick="toggleComments(<%= post.id %>)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 14a2 2 0 01-2 2H5l-4 4V4a2 2 0 012-2h14a2 2 0 012 2v10z" />
         </svg>
-        <span class="text-sm">Comments</span> <!-- Adjusted font size -->
+        <span class="text-sm">Comments</span>
       </div>
       <div class="flex items-center space-x-1">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,5 +93,114 @@
         <span class="text-sm">Saved</span>
       </div>
     </div>
+
+ 
+    <!-- Comments Section -->
+    <div id="comments-<%= post.id %>" class="hidden mt-4">
+      <h3 class="text-lg font-semibold">Comments</h3>
+      <% post.comments.each do |comment| %>
+        <div class="chat chat-start">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img alt="<%= comment.user.username %>" src="<%= comment.user.profile_picture.attached? ? url_for(comment.user.profile_picture) : 'default_avatar_url_here' %>" class="w-10 h-10 rounded-full" />
+            </div>
+          </div>
+          <div class="chat-header">
+            <%= comment.user.username %>
+            <time class="text-xs opacity-50"><%= comment.created_at.strftime("%H:%M") %></time>
+          </div>
+          <div class="chat-bubble"><%= comment.body %></div>
+        </div>
+      <% end %>
+      
+      <%= form_with model: [post, Comment.new], local: true do |f| %>
+        <div class="mt-4">
+          <%= f.text_area :body, class: "w-full p-2 border rounded-md", placeholder: "Add a comment..." %>
+        </div>
+        <div class="mt-2 flex justify-end">
+          <%= f.submit "Post", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+        </div>
+      <% end %>
+    </div>
+
+
   </div>
 </div>
+
+
+
+<script>
+  function toggleComments(postId) {
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    if (commentsSection) {
+      commentsSection.classList.toggle('hidden');
+    }
+  }
+
+  function toggleMetrics(postId) {
+    const metricsSection = document.getElementById(`metrics-${postId}`);
+    if (metricsSection) {
+      metricsSection.classList.toggle('hidden');
+    }
+  }
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize the performance chart
+    var performanceOptions = {
+      chart: {
+        type: 'line',
+        height: 210
+      },
+      series: [{
+        name: 'Performance',
+        data: [10, 20, 15, 30, 25] // Replace with dynamic data
+      }],
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May'] // Replace with dynamic labels
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      colors: ['#1E90FF'],
+      dataLabels: {
+        enabled: false
+      }
+    };
+
+    var performanceChart = new ApexCharts(document.querySelector("#performance-chart-<%= post.id %>"), performanceOptions);
+    performanceChart.render();
+
+    // Initialize the quantity and price chart
+    var quantityPriceOptions = {
+      chart: {
+        type: 'bar',
+        height: 210
+      },
+      series: [{
+        name: 'Quantity',
+        data: [30, 40, 35, 50, 49] // Replace with dynamic data
+      }, {
+        name: 'Price',
+        data: [100, 120, 110, 140, 130] // Replace with dynamic data
+      }],
+      xaxis: {
+        categories: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'] // Replace with dynamic labels
+      },
+      colors: ['#FF5733', '#C70039'],
+      dataLabels: {
+        enabled: false
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%'
+        }
+      }
+    };
+
+    var quantityPriceChart = new ApexCharts(document.querySelector("#quantity-price-chart-<%= post.id %>"), quantityPriceOptions);
+    quantityPriceChart.render();
+  });
+</script>

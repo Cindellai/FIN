@@ -20,7 +20,7 @@ creators = []
 30.times do |i|
   user = User.create!(
     username: Faker::Internet.username,
-    bio: Faker::Lorem.sentence,
+    bio: Faker::Quote.most_interesting_man_in_the_world,
     email: Faker::Internet.email,
     password: 'password',
     first_name: Faker::Name.first_name,
@@ -40,7 +40,7 @@ additional_users = []
 20.times do |i|
   user = User.create!(
     username: Faker::Internet.username,
-    bio: Faker::Lorem.sentence,
+    bio: Faker::TvShows::SiliconValley.quote,
     email: Faker::Internet.email,
     password: 'password',
     first_name: Faker::Name.first_name,
@@ -57,41 +57,46 @@ end
 
 users = creators + additional_users
 
+# Define potential topics
+topics = ['Algorithmic Trading', 'Market Analysis', 'AI in Finance', 'Cryptocurrency', 'Python for Trading', 'Investment Strategies']
+
 # Create posts for each creator
 creators.each do |user|
   10.times do
     post_type = ['article', 'video', 'trade_idea'].sample
+    topic = topics.sample
 
     body_content = case post_type
                    when 'article'
                      [
-                       "#{Faker::Lorem.paragraph(sentence_count: 3, supplemental: true, random_sentences_to_add: 4)} Effective #{Faker::Finance.stock_market} investment strategies are essential for growth. Understanding market trends and making informed decisions can significantly impact your portfolio's performance.",
-                       "#{Faker::Lorem.paragraph(sentence_count: 3, supplemental: true, random_sentences_to_add: 4)} Diversification is key to minimizing risks in the stock market. By spreading investments across various sectors, you can protect your assets from market volatility.",
-                       "#{Faker::Lorem.paragraph(sentence_count: 3, supplemental: true, random_sentences_to_add: 4)} Long-term investments in blue-chip stocks have historically provided stable returns. While they may not be as exciting as high-risk, high-reward trades, they offer security and steady growth over time.",
-                       "#{Faker::Lorem.paragraph(sentence_count: 3, supplemental: true, random_sentences_to_add: 4)} Analyzing financial statements is a crucial step in evaluating a company's potential. By understanding a company's balance sheet, income statement, and cash flow, investors can make informed decisions about their stock purchases."
+                       "Understanding the trends in the #{topic} field is crucial for predicting market movements. This article explores the latest techniques to maximize returns.",
+                       "This deep dive into the latest #{topic} reveals key insights into investment opportunities that are emerging in the global market.",
+                       "#{topic} is reshaping how we approach stock investments. This article covers essential strategies used by top investors.",
+                       "For those interested in long-term growth, this analysis explores the fundamentals of value investing in today's volatile market."
                      ].sample
                    when 'video'
                      [
-                       "Check out this comprehensive video on long-term investing strategies and market analysis. Learn how to navigate the ups and downs of the stock market.",
-                       "Watch this video tutorial on reading and interpreting stock charts to improve your trading strategies.",
-                       "This video covers the basics of options trading, including how to use options to hedge your portfolio and maximize profits.",
-                       "Learn about the latest market trends and forecasts in this in-depth video analysis."
+                       "Watch this in-depth tutorial on building a Python script for automated trading strategies. Perfect for those looking to get started with algo trading.",
+                       "This video explores the top coding strategies used by quant traders. Learn how to implement these techniques to enhance your trading toolkit.",
+                       "Check out this guide on optimizing your trading algorithms using the latest in AI and machine learning.",
+                       "Explore the intersection of coding and finance in this comprehensive video on creating a backtesting framework for your trading strategies."
                      ].sample
                    when 'trade_idea'
                      [
-                       "Consider this trade idea: Investing in #{Faker::Finance.stock_market} stocks could yield significant returns given the current market conditions. Keep an eye on economic indicators and company earnings reports.",
-                       "Trade alert: #{Faker::Finance.stock_market} stocks are showing strong momentum. This could be a good entry point for growth-oriented investors.",
-                       "With the recent downturn in tech stocks, now might be the time to buy into #{Faker::Finance.stock_market}. Consider a dollar-cost averaging strategy to mitigate risks.",
-                       "Given the current inflation rates, #{Faker::Finance.stock_market} stocks could provide a hedge against devaluation. Focus on companies with strong cash flow and pricing power."
+                       "Considering #{Faker::Finance.stock_market} for your next trade? Here's why #{Faker::Company.name} might be a solid choice based on current market trends.",
+                       "The recent dip in #{Faker::Company.name} presents an interesting buying opportunity. Here's why it might be worth a closer look.",
+                       "With stocks showing volatility, a long-term position in #{Faker::Finance.stock_market} might provide a safer return.",
+                       "Given the current economic climate, investing in key sectors like #{Faker::Company.name} might hedge against inflation."
                      ].sample
                    else
                      Faker::Lorem.paragraph(sentence_count: 3, supplemental: true, random_sentences_to_add: 4)
                    end
 
     post = user.posts.create!(
-      title: Faker::Lorem.sentence(word_count: 3, supplemental: true),
+      title: "#{topic} Strategies for #{Faker::Company.name}",  # Relevant finance/trading title
       post_type: post_type,
       body: body_content,
+      topic: topic,
       url: post_type == 'video' ? Faker::Internet.url(host: 'example.com') : nil
     )
 
@@ -105,6 +110,14 @@ creators.each do |user|
         price: Faker::Commerce.price(range: 1.0..1000.0),
         description: Faker::Lorem.paragraph,
         poster: user
+      )
+    end
+
+    # Create comments for the post
+    rand(2..5).times do
+      post.comments.create!(
+        user: users.sample,
+        body: Faker::Lorem.sentence(word_count: 10)
       )
     end
   end
@@ -126,4 +139,5 @@ users.each do |user|
   end
 end
 
-puts "Seeded #{User.count} users, #{Post.count} posts, #{Trade.count} trades, #{Subscription.count} subscriptions."
+puts "Seeded #{User.count} users, #{Post.count} posts, #{Trade.count} trades, #{Subscription.count} subscriptions, #{Comment.count} comments."
+

@@ -22,9 +22,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Comment < ApplicationRecord
+  belongs_to :post
   belongs_to :user
-  belongs_to :trade, optional: true
-  belongs_to :post, optional: true
 
-  validates :body, presence: true
+  # Optionally, if you want comments to be deleted when a post is deleted:
+  # belongs_to :post, dependent: :destroy
 end
+
