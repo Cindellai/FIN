@@ -5,7 +5,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="w-2/4 bg-gray-400 mx-auto">
+  <div class="w-1/2 bg-gray-400">
     <% if @posts.present? && @posts.any? %>
       <% @posts.each do |post| %>
         <%= render 'posts/post_card', post: post %>
@@ -16,7 +16,7 @@
   </div>
 
   <!-- Right Menu -->
-  <div class="w-1/4">
+  <div class="w-1/4 fixed top-39 right-10 h-screen overflow-y-auto">
     <%= render 'shared/trending' %>
     <%= render 'shared/WTK' %>
   </div>

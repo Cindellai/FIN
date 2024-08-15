@@ -7,27 +7,23 @@
 
   <hr class="border-gray-600">
 
-  <% @who_to_know.each do |person| %>
-    <div class="flex flex-shrink-0">
-      <div class="flex-1">
-        <div class="flex items-center w-48">
-          <div>
-            <%= image_tag person.profile_picture_url, class: 'inline-block h-10 w-auto rounded-full ml-4 mt-2' %>
-          </div>
-          <div class="ml-3 mt-3">
-            <p class="text-base leading-6 font-medium text-white">
-              <%= person.name %>
-            </p>
-            <p class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-              <%= person.username %>
-            </p>
-          </div>
-        </div>
+  <% @who_to_know.first(3).each do |person| %>
+    <div class="flex items-center p-2">
+      <div class="flex-shrink-0">
+        <%= image_tag person.profile_picture.attached? ? url_for(person.profile_picture) : 'default_avatar.png', class: 'h-10 w-10 rounded-full' %>
       </div>
-      <div class="flex-1 px-4 py-2 m-2">
-        <a href="#" class="float-right">
-          <button class="bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border border-white hover:border-transparent rounded-full">
-            Follow
+      <div class="ml-3 flex-1">
+        <p class="text-base font-medium text-white truncate">
+          <%= person.username %>
+        </p>
+        <p class="text-sm font-medium text-gray-400 truncate">
+          <%= person.username %>
+        </p>
+      </div>
+      <div>
+        <a href="#">
+          <button class="bg-transparent hover:bg-blue-500 text-white font-semibold py-1 px-2 border border-white hover:border-transparent rounded">
+            +
           </button>
         </a>
       </div>
@@ -37,7 +33,39 @@
 
   <div class="flex">
     <div class="flex-1 p-4">
-      <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+      <h2 class="px-4 ml-2 w-48 font-bold text-blue-400 cursor-pointer" id="show-more">Show more</h2>
     </div>
   </div>
+
+  <div id="more-people" class="hidden">
+    <% @who_to_know.drop(3).first(10).each do |person| %>
+      <div class="flex items-center p-2">
+        <div class="flex-shrink-0">
+          <%= image_tag person.profile_picture.attached? ? url_for(person.profile_picture) : 'default_avatar.png', class: 'h-10 w-10 rounded-full' %>
+        </div>
+        <div class="ml-3 flex-1">
+          <p class="text-base font-medium text-white truncate">
+            <%= person.username %>
+          </p>
+          <p class="text-sm font-medium text-gray-400 truncate">
+            <%= person.username %>
+          </p>
+        </div>
+        <div>
+          <a href="#">
+            <button class="bg-transparent hover:bg-blue-500 text-white font-semibold py-1 px-2 border border-white hover:border-transparent rounded">
+              +
+            </button>
+          </a>
+        </div>
+      </div>
+      <hr class="border-gray-600">
+    <% end %>
+  </div>
 </div>
+
+<script>
+  document.getElementById('show-more').addEventListener('click', function() {
+    document.getElementById('more-people').classList.toggle('hidden');
+  });
+</script>

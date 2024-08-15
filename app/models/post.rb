@@ -23,6 +23,7 @@
 #
 class Post < ApplicationRecord
   belongs_to :user
+  has_many :comments, dependent: :destroy # This line establishes the relationship
   has_one :trade, dependent: :destroy        
   has_one_attached :file
 
@@ -33,6 +34,7 @@ class Post < ApplicationRecord
 
   accepts_nested_attributes_for :trade, allow_destroy: true
 
+
   private
 
   def correct_file_mime_type
@@ -42,7 +44,12 @@ class Post < ApplicationRecord
     end
   end
 
-  scope :trending_topics, -> { select(:topic).group(:topic).order('count_id DESC').count(:id).keys }
-
+  scope :trending_topics, -> {
+    where.not(topic: nil) # Exclude posts with nil topics
+      .group(:topic)
+      .order('COUNT(topic) DESC')
+      .limit(5) # Apply limit here within the scope
+      .pluck(:topic) # Pluck only the topic names, this will return an array of topics
+  }
 end
  

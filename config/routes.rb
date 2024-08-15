@@ -15,9 +15,12 @@ Rails.application.routes.draw do
     resources :posts, only: [:new, :create, :edit, :update, :destroy]
   end
 
+  resources :posts, only: [:show, :index] do
+    resources :comments, only: [:create, :destroy]
+  end
+
   resources :subscriptions
   resources :trades
-  resources :comments
 
   get 'feed', to: 'users#feed', as: 'user_feed'
 

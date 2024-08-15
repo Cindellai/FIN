@@ -16,7 +16,11 @@ class UsersController < ApplicationController
     @posts = @user.feed_posts
 
     # Determine trending topics based on the most common topics in posts
-    @trending_topics = Post.trending_topics.limit(5) # Adjust the limit as needed
+    topics = ['Algorithmic Trading', 'Market Analysis', 'AI in Finance', 'Cryptocurrency', 'Python for Trading', 'Investment Strategies']
+    @trending_topics = topics.map do |topic|
+      count = Post.where('title LIKE ? OR body LIKE ?', "%#{topic}%", "%#{topic}%").count
+      { text: topic, count: count }
+    end
 
     # Who to know logic
     @who_to_know = User.where.not(id: @user.id).limit(5)
