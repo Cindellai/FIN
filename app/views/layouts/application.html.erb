@@ -19,10 +19,6 @@
   <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css');</style>
   <style>
 
-  .container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 .text-center.md:text-left h2 {
   margin-bottom: 0.5em;
@@ -146,13 +142,7 @@
       --grey-bg: #ffffff;  /* Light greyish white */
       --text-grey: #2d3748; /* Darker grey for better contrast */
     }
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background-color: var(--grey-bg); /* Use the updated grey-bg */
-      color: var(--text-grey);
-    }
+    
     .content {
       flex: 1;
       display: flex;
@@ -177,7 +167,6 @@
 </head>
 <body>
   <%= render 'shared/navbar' %>
-  <div class="flex flex-col flex-grow container mx-auto">
     <div class="flex flex-grow">
     
       <!-- Main Content -->
