@@ -94,14 +94,25 @@
       </div>
     </div>
 
+ 
     <!-- Comments Section -->
     <div id="comments-<%= post.id %>" class="hidden mt-4">
       <h3 class="text-lg font-semibold">Comments</h3>
       <% post.comments.each do |comment| %>
-        <div class="border-t mt-2 pt-2">
-          <p class="text-sm text-gray-700"><%= comment.user.username %>: <%= comment.body %></p>
+        <div class="chat chat-start">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img alt="<%= comment.user.username %>" src="<%= comment.user.profile_picture.attached? ? url_for(comment.user.profile_picture) : 'default_avatar_url_here' %>" class="w-10 h-10 rounded-full" />
+            </div>
+          </div>
+          <div class="chat-header">
+            <%= comment.user.username %>
+            <time class="text-xs opacity-50"><%= comment.created_at.strftime("%H:%M") %></time>
+          </div>
+          <div class="chat-bubble"><%= comment.body %></div>
         </div>
       <% end %>
+      
       <%= form_with model: [post, Comment.new], local: true do |f| %>
         <div class="mt-4">
           <%= f.text_area :body, class: "w-full p-2 border rounded-md", placeholder: "Add a comment..." %>
@@ -111,6 +122,8 @@
         </div>
       <% end %>
     </div>
+
+
   </div>
 </div>
 
