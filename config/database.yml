@@ -83,5 +83,6 @@ production:
   <<: *default
   database: rails_template_production
   username: GirlsWhoCode
+  password: <%= ENV["RAILS_PRODUCTION_DATABASE_PASSWORD"] %>
   host: localhost
   port: 5432
