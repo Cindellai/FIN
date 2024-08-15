@@ -1,70 +1,82 @@
-<!-- app/views/users/_profile.html.erb -->
-
 <div class="flex min-h-screen">
-  <!-- Sidebar -->
-  <%= render 'shared/sidebar', user: @user %>
-
   <!-- Main Content -->
-  <div class="w-3/4 bg-white p-4 flex flex-col">
-    <div class="relative w-full h-72 bg-cover bg-center" style="background-image: url('<%= url_for(@user.banner_image) if @user.banner_image.attached? %>');">
-      <div class="absolute top-4 left-4">
-        <!-- Social media buttons here -->
+  <div class="w-full bg-white p-8 flex">
+    
+    <!-- Sidebar -->
+    <aside class="w-1/4 bg-gray-800 text-white p-6 h-screen">
+      <%= render 'shared/sidebar', user: @user %>
+    </aside>
+
+    <!-- Profile and Posts Content -->
+    <div class="flex-1 bg-white p-8 ml-4 flex flex-col items-center">
+      <!-- Banner Section -->
+      <div class="relative w-full h-64 bg-cover bg-center rounded-lg shadow-lg" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('<%= url_for(@user.banner_image) if @user.banner_image.attached? %>');">
+        <div class="absolute top-4 left-4 flex space-x-2">
+          <!-- Social media buttons here -->
+        </div>
       </div>
-    </div>
-    <div class="relative flex justify-center -mt-16">
-      <div class="avatar">
-        <div class="w-24 h-24 rounded-full ring ring-white ring-offset-base-100 ring-offset-2 overflow-hidden">
-          <% if @user.profile_picture.attached? %>
-            <img src="<%= url_for(@user.profile_picture) %>" alt="<%= @user.username %>" class="w-full h-full object-cover" />
-          <% else %>
-            <div class="rounded-full bg-gray-200 w-24 h-24 flex items-center justify-center">
-              <span class="text-gray-700 text-lg">No Image</span>
+      
+      <!-- Avatar Section -->
+      <div class="relative flex justify-center -mt-12">
+        <div class="avatar transition-transform transform hover:scale-105">
+          <div class="w-28 h-28 rounded-full ring ring-white ring-offset-base-100 ring-offset-2 overflow-hidden shadow-lg">
+            <% if @user.profile_picture.attached? %>
+              <img src="<%= url_for(@user.profile_picture) %>" alt="<%= @user.username %>" class="w-full h-full object-cover" />
+            <% else %>
+              <div class="rounded-full bg-gray-200 w-28 h-28 flex items-center justify-center">
+                <span class="text-gray-700 text-lg">No Image</span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Box Start -->
+      <div class="bg-white p-4 rounded-lg shadow-lg mt-6 max-w-lg mx-auto">
+        <div class="text-center mt-4">
+          <div class="inline-flex items-center space-x-2">
+            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-lg">@<%= @user.username %></span>
+          </div>
+          <p class="text-gray-600 mt-2 text-sm"><%= @user.bio %></p>
+          <p class="text-gray-600 text-sm mt-1">Subscribers: 2678</p>
+          <% if current_user == @user %>
+            <div class="flex justify-center mt-4">
+              <a href="<%= edit_user_path(@user) %>" class="bg-blue-500 text-white font-bold py-1 px-3 rounded-full hover:bg-blue-700 flex items-center justify-center text-sm group">
+                <span>Edit Profile</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 ml-1 transition-transform duration-300 group-hover:translate-x-1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </a>
             </div>
           <% end %>
         </div>
       </div>
-    </div>
-    
-    <!-- Profile Box Start -->
-    <div class="bg-white p-6 rounded-lg shadow-md mt-4 max-w-lg mx-auto">
-      <div class="text-center mt-4">
-        <div class="inline-flex items-center space-x-2">
-          <span class="px-2 py-1 bg-gray-200 rounded-full text-lg">@<%= @user.username %></span>
-        </div>
-        <p class="text-gray-600 mt-2 text-sm"><%= @user.bio %></p>
-        <p class="text-gray-600 text-sm mt-1">Subscribers: 2678</p>
+      <!-- Profile Box End -->
+
+      <!-- Posts Section -->
+      <div class="mt-6 w-full">
         <% if current_user == @user %>
-          <div class="flex justify-center mt-4">
-            <a href="<%= edit_user_path(@user) %>" class="bg-blue-500 text-white font-bold py-1 px-3 rounded-full hover:bg-blue-700 flex items-center justify-center text-sm group">
-              <span>Edit Profile</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 ml-1 transition-transform duration-300 group-hover:translate-x-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <div class="flex justify-end mb-4">
+            <a href="<%= new_user_post_path(@user) %>" class="bg-blue-800 text-white px-4 py-2 rounded-full inline-flex items-center justify-center hover:bg-blue-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
             </a>
           </div>
         <% end %>
-      </div>
-    </div>
-    <!-- Profile Box End -->
-
-    <div class="mt-4">
-      <% if current_user == @user %>
-        <div class="flex justify-end mb-4">
-          <a href="<%= new_user_post_path(@user) %>" class="bg-blue-800 text-white px-4 py-2 rounded-full inline-flex items-center justify-center hover:bg-blue-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-          </a>
-        </div>
-      <% end %>
-      
-      <% if @posts.any? %>
-        <% @posts.each do |post| %>
-          <%= render 'posts/post_card', post: post %>
+        
+        <% if @posts.any? %>
+          <div class="grid grid-cols-1 gap-4">
+            <% @posts.each do |post| %>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <%= render 'posts/post_card', post: post %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-700 text-center">No posts available.</p>
         <% end %>
-      <% else %>
-        <p class="text-gray-700">No posts available.</p>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
