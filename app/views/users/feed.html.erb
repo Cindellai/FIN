@@ -1,11 +1,11 @@
-<div class="flex container bg-gray-400 mx-auto pt-16">
+<div class="flex container bg-gray-100 mx-auto pt-16">
   <!-- Sidebar -->
   <div class="w-1/4 pr-4">
     <%= render 'shared/sidebar', user: current_user %>
   </div>
 
   <!-- Main Content -->
-  <div class="w-1/2 bg-gray-400">
+  <div class="w-1/2">
     <% if @posts.present? && @posts.any? %>
       <% @posts.each do |post| %>
         <%= render 'posts/post_card', post: post %>
