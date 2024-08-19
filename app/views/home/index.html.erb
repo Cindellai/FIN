@@ -1,247 +1,220 @@
-<body>
-  <div class="text-center animate-fade-in-down">
-    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold text-teal-600 mb-4">
-      Welcome to the Financial Literacy & Investment Platform
-    </h1>
-    <p class="mt-3 text-xl max-w-2xl mx-auto text-base-content/80">
-      Empowering traders with insights, advice, and strategies from experts. Join our community to enhance your financial literacy and master the art of trading.
-    </p>
-  </div>
-
-  <div data-theme="light">
-    <div class="container relative z-10 py-20 xl:py-48">
-      <div class="grid items-center gap-8 xl:grid-cols-7 xl:gap-20">
-        <div class="order-1 xl:order-1 xl:col-span-3 animate-fade-in-left">
-          <div class="inline rounded bg-primary/20 px-1.5 py-0.5 text-sm font-medium text-primary">v1.0.0</div>
-          <p class="mt-3 text-3xl font-semibold leading-normal">The Ultimate Trading <br> Web App with Integrated Analytics</p>
-          <p class="mt-8 max-w-[500px]">Begin your next trading project with a foundation built on daisyUI, featuring integrated analytics to enhance your trading strategies and performance.</p>
-          <div class="mt-8 inline-flex items-center gap-3">
-            <a href="/dashboards/trading">
-              <button class="btn gap-2 btn-primary animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" font-size="18" width="1em" height="1em" viewBox="0 0 24 24">
-                  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                    <path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path>
-                    <path d="m12 15l5 6H7l5-6z"></path>
-                  </g>
-                </svg>
-                Sign Up
-              </button>
-            </a>
-          </div>
-        </div>
-        <div class="order-2 xl:order-2 xl:col-span-4 animate-fade-in-right">
-          <div class="grid gap-8">
-            <div aria-label="Card" class="card bg-base-100 card-bordered">
-              <div class="card-body p-0">
-                <div class="flex items-center justify-between px-5 pt-4">
-                  <span class="font-medium">Financial Metrics</span>
-                </div>
-                <div class="mt-2 border-y border-base-content/10 py-2">
-                  <div class="grid grid-cols-3 gap-5 divide-x divide-base-content/10">
-                    <div class="text-center">
-                      <p class="text-base font-medium">Total Trades</p>
-                      <p class="mt-1 text-2xl font-semibold">1,427</p>
-                      <div class="mt-1 inline-flex items-center gap-1 text-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" font-size="16" width="1em" height="1em" viewBox="0 0 24 24">
-                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12l7-7l7 7m-7 7V5"></path>
-                        </svg>
-                        <p class="text-sm">+5.15%</p>
-                      </div>
-                    </div>
-                    <div class="text-center">
-                      <p class="text-base font-medium">Active Sessions</p>
-                      <p class="mt-1 text-2xl font-semibold">834</p>
-                      <div class="mt-1 inline-flex items-center gap-1 text-error">
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" font-size="16" width="1em" height="1em" viewBox="0 0 24 24">
-                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7l-7 7l-7-7"></path>
-                        </svg>
-                        <p class="text-sm">-2.78%</p>
-                      </div>
-                    </div>
-                    <div class="text-center">
-                      <p class="text-base font-medium">Profit Rate</p>
-                      <p class="mt-1 text-2xl font-semibold">72.5%</p>
-                      <div class="mt-1 inline-flex items-center gap-1 text-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" font-size="16" width="1em" height="1em" viewBox="0 0 24 24">
-                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12l7-7l7 7m-7 7V5"></path>
-                        </svg>
-                        <p class="text-sm">+1.14%</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-5">
-                  <div class="overflow-hidden rounded-lg">
-                    <div id="financial-metrics-chart" style="min-height: 210px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div aria-label="Card" class="card bg-base-100 card-bordered">
-              <div class="card-body px-0 pb-0">
-                <div class="px-6">
-                  <div class="flex items-center justify-between">
-                    <span class="font-medium">Revenue Statistics</span>
-                    <div role="tablist" class="tabs tabs-boxed tabs-sm">
-                      <a role="tab" class="tab">Day</a>
-                      <a role="tab" class="tab">Month</a>
-                      <a role="tab" class="tab tab-active">Year</a>
-                    </div>
-                  </div>
-                  <div class="mt-2 flex items-center gap-3">
-                    <span class="text-4xl/none font-semibold">$20,547K</span>
-                    <span class="text-sm font-medium text-success">+8.24%</span>
-                  </div>
-                  <span class="text-sm text-base-content/70">Total income in this year</span>
-                </div>
-                <div class="overflow-hidden rounded-xl">
-                  <div id="revenue-statistics-chart" style="min-height: 295px;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="relative pt-20 pb-56">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+        <img class="object-cover object-center w-full h-full" src="assets/stock.jpg" alt="" />
+        <div class="absolute inset-0 bg-black opacity-80"></div> <!-- Black overlay with opacity -->
     </div>
 
     <div class="relative z-10">
-      <div class="container py-12 2xl:py-24">
-        <div class="text-center">
-          <div class="inline-block rounded border border-indigo-500/5 bg-indigo-500/5 p-2.5">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" font-size="20" class="text-indigo-600" width="1em" height="1em" viewBox="0 0 24 24">
-              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.64 3.64l-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72ZM14 7l3 3M5 6v4m14 4v4M10 2v2M7 8H3m18 8h-4M11 3H9"></path>
-            </svg>
-          </div>
-          <p class="mt-1 text-3xl font-semibold">Why Choose Our Trading Platform?</p>
-          <p class="mt-3 inline-block max-w-md text-base-content/80">
-            Discover the ultimate trading experience with cutting-edge tools, real-time data, and a supportive community designed to help you succeed in the markets.
-          </p>
+        <div class="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl">
+            <div class="grid items-center grid-cols-1 lg:grid-cols-2">
+                <div>
+                    <p class="mt-4 tracking-tighter text-white">
+                        <span class="font-serif italic font-normal text-8xl">Welcome to Your Gateway to Financial Mastery</span>
+                    </p>
+                    <p class="mt-12 font-sans text-base font-normal leading-7 text-white text-opacity-70">
+                        Join our community to enhance your financial literacy and succeed in the markets.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="mt-8 grid grid-cols-2 gap-8 lg:grid-cols-4 2xl:mt-24 2xl:gap-16">
-          <!-- Feature cards here -->
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <div class="">
-    <div class="container py-24">
-      <div class="text-center animate-fade-in-up">
-        <div class="inline-block rounded border border-green-500/5 bg-green-500/5 p-2.5">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" font-size="20" class="text-green-600" width="1em" height="1em" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m5-17H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
+<section class="relative glass bg-gradient-to-b from-green-900 to-black text-gray-100 py-16", style="font-family: ' Arial', serif;">
+    <div class=" mx-auto font-playfair text-center">
+        <h2 class="text-5xl font-bold mb-4">Built to Empower Every Trader</h2>
+        <p class="text-gray-300 text-xl mb-12">Our platform provides the tools you need to succeed in the market.</p>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12 h-12 text-violet-600 mb-4">
+                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="text-3xl font-semibold mb-2">Advanced Analytics</h3>
+                <div class="space-y-2 text-lg">
+                    <p>Real-time market data</p>
+                    <p>Comprehensive reporting</p>
+                    <p>Performance insights</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12 h-12 text-violet-600 mb-4">
+                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="text-3xl font-semibold mb-2">User-Friendly Interface</h3>
+                <div class="space-y-2 text-lg">
+                    <p>Intuitive design</p>
+                    <p>Easy navigation</p>
+                    <p>Responsive across devices</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12 h-12 text-violet-600 mb-4">
+                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="text-3xl font-semibold mb-2">Comprehensive Resources</h3>
+                <div class="space-y-2 text-lg">
+                    <p>Educational content</p>
+                    <p>Expert strategies</p>
+                    <p>Market news</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12 h-12 text-violet-600 mb-4">
+                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="text-3xl font-semibold mb-2">Secure Trading</h3>
+                <div class="space-y-2 text-lg">
+                    <p>Encrypted transactions</p>
+                    <p>Data protection</p>
+                    <p>Privacy controls</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12 h-12 text-violet-600 mb-4">
+                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="text-3xl font-semibold mb-2">Community Support</h3>
+                <div class="space-y-2 text-lg">
+                    <p>Join like-minded traders</p>
+                    <p>Share insights and tips</p>
+                    <p>Participate in discussions</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12 h-12 text-violet-600 mb-4">
+                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="text-3xl font-semibold mb-2">24/7 Customer Support</h3>
+                <div class="space-y-2 text-lg">
+                    <p>Round-the-clock assistance</p>
+                    <p>Live chat and email support</p>
+                    <p>Fast response times</p>
+                </div>
+            </div>
         </div>
-        <p class="mt-1 text-3xl font-semibold">Subscription Plans</p>
-        <p class="mt-3 inline-block max-w-sm text-base-content/70">Choose a plan that fits your trading needs, with flexible options and no hidden fees.</p>
-      </div>
-      <div class="mt-8 grid gap-6 lg:grid-cols-3 xl:gap-12">
-        <!-- Subscription plans here -->
-      </div>
     </div>
-  </div>
+</section>
 
-  <div class="">
-    <div class="container py-12 lg:py-24">
-      <div class="grid gap-12 lg:grid-cols-7 lg:gap-24">
-        <div class="col-span-3 animate-fade-in-left">
-          <div class="inline-block rounded border border-purple-500/5 bg-purple-500/5 p-2.5">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" font-size="20" class="text-purple-600" width="1em" height="1em" viewBox="0 0 24 24">
-              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Zm4 0h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path>
-            </svg>
-          </div>
-          <p class="mt-3 text-3xl font-semibold">Any Questions?</p>
-          <p class="mt-3 text-base-content/70">If you still have questions, don't worry. Just contact us with your queries.</p>
-          <a class=" btn btn-sm mt-4" href="https://discord.com/invite/S6TZxycVHs">Contact Us</a>
+
+
+
+<section class="p-6 bg-black text-white">
+	<div class="container mx-auto grid justify-center grid-cols-2 text-center lg:grid-cols-3">
+		<div class="flex flex-col justify-start m-2 lg:m-6">
+			<p class="text-4xl font-bold leading-none lg:text-6xl">50+</p>
+			<p class="text-sm sm:text-base">Clients</p>
+		</div>
+		<div class="flex flex-col justify-start m-2 lg:m-6">
+			<p class="text-4xl font-bold leading-none lg:text-6xl">89K</p>
+			<p class="text-sm sm:text-base">Followers on social media</p>
+		</div>
+		<div class="flex flex-col justify-start m-2 lg:m-6">
+			<p class="text-4xl font-bold leading-none lg:text-6xl">3</p>
+			<p class="text-sm sm:text-base">Published books</p>
+		</div>
+		<div class="flex flex-col justify-start m-2 lg:m-6">
+			<p class="text-4xl font-bold leading-none lg:text-6xl">8</p>
+			<p class="text-sm sm:text-base">TED talks</p>
+		</div>
+		<div class="flex flex-col justify-start m-2 lg:m-6">
+			<p class="text-4xl font-bold leading-none lg:text-6xl">22</p>
+			<p class="text-sm sm:text-base">Years of experience</p>
+		</div>
+		<div class="flex flex-col justify-start m-2 lg:m-6">
+			<p class="text-4xl font-bold leading-none lg:text-6xl">10+</p>
+			<p class="text-sm sm:text-base">Workshops</p>
+		</div>
+	</div>
+</section>
+
+<section class="py-12 bg-gray-50 sm:py-16 lg:py-20">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center">
+            <div class="text-center">
+                <h2 class="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">Don't just listen to us</h2>
+            </div>
+
+            
+            <div class="relative mt-10 md:mt-24 md:order-2">
+                <div class="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6 z-0">
+                    <div class="w-full h-full max-w-5xl mx-auto opacity-30 blur-lg filter" style="background: linear-gradient(90deg, #00ffcc -0.55%, #00cc99 22.86%, #00b386 48.36%, #009966 73.33%, #008b57 99.34%)"></div>
+                </div>
+
+                <div class="relative flex justify-center space-x-4 space-x-reverse">
+                    <div class="flex flex-col overflow-hidden shadow-xl w-64 h-64 glass-card">
+                        <div class="flex flex-col justify-between flex-1 p-6 bg-white bg-opacity-50 lg:py-8 lg:px-7 backdrop-blur-md rounded-none">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-teal-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                </div>
+
+                                <blockquote class="text-lg leading-relaxed text-gray-900 font-pj text-center">
+                                    “You made it so simple. My new trading platform is so much faster and easier to work with.”
+                                </blockquote>
+                            </div>
+
+                            <div class="flex items-center mt-4">
+                                <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-1.png" alt="" />
+                                <div class="ml-4 text-center">
+                                    <p class="text-base font-bold text-gray-900 font-pj">Leslie Alexander</p>
+                                    <p class="mt-0.5 text-sm font-pj text-gray-600">Freelance React Developer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col overflow-hidden shadow-xl w-64 h-64 glass-card">
+                        <div class="flex flex-col justify-between flex-1 p-6 bg-white bg-opacity-50 lg:py-8 lg:px-7 backdrop-blur-md rounded-none">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-teal-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                </div>
+
+                                <blockquote class="text-lg leading-relaxed text-gray-900 font-pj text-center">
+                                    “The platform's design makes trading so much easier. I can't imagine going back to anything else.”
+                                </blockquote>
+                            </div>
+
+                            <div class="flex items-center mt-4">
+                                <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png" alt="" />
+                                <div class="ml-4 text-center">
+                                    <p class="text-base font-bold text-gray-900 font-pj">Jacob Jones</p>
+                                    <p class="mt-0.5 text-sm font-pj text-gray-600">Digital Marketer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col overflow-hidden shadow-xl w-64 h-64 glass-card">
+                        <div class="flex flex-col justify-between flex-1 p-6 bg-white bg-opacity-50 lg:py-8 lg:px-7 backdrop-blur-md rounded-none">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-teal-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                </div>
+
+                                <blockquote class="text-lg leading-relaxed text-gray-900 font-pj text-center">
+                                    “The educational resources on FairTrade have been incredibly helpful. I'm learning so much.”
+                                </blockquote>
+                            </div>
+
+                            <div class="flex items-center mt-4">
+                                <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png" alt="" />
+                                <div class="ml-4 text-center">
+                                    <p class="text-base font-bold text-gray-900 font-pj">Jenny Wilson</p>
+                                    <p class="mt-0.5 text-sm font-pj text-gray-600">Graphic Designer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-span-4 animate-fade-in-right">
-          <div class="space-y-4">
-            <!-- FAQ collapsibles here -->
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-
-  <div class="fixed bottom-5 end-5 z-10 animate-fade-in-up">
-    <button aria-label="Theme toggler" class="btn border border-base-content/10 text-base-content/70 hover:bg-base-content/10 btn-circle btn-ghost">
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" font-size="20" width="1em" height="1em" viewBox="0 0 24 24">
-        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9Z"></path>
-      </svg>
-    </button>
-  </div>
-
-  <!-- Financial Metrics Chart Script -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var options = {
-        chart: {
-          height: 210,
-          type: 'area'
-        },
-        series: [{
-          name: 'Active Sessions',
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        }],
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-        },
-        tooltip: {
-          enabled: true
-        }
-      };
-
-      var chart = new ApexCharts(document.querySelector("#financial-metrics-chart"), options);
-      chart.render();
-    });
-  </script>
-
-  <!-- Revenue Statistics Chart Script -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var options = {
-        chart: {
-          type: 'bar',
-          height: 280,
-          toolbar: {
-            show: false
-          }
-        },
-        series: [{
-          name: 'Trades',
-          data: [3650, 4380, 5110, 5840, 6570, 7300, 5110, 5840, 6570, 4380]
-        }, {
-          name: 'Revenue',
-          data: [1340.56, 1982.75, 2097.66, 3837.28, 4754.80, 5348.43, 3155.55, 2313.22, 4536.71, 1354.52]
-        }],
-        xaxis: {
-          categories: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
-        },
-        tooltip: {
-          y: {
-            formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
-              return seriesIndex === 1 ? `$${value}K` : value;
-            }
-          }
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          },
-        },
-        legend: {
-          position: 'bottom',
-          horizontalAlign: 'center'
-        },
-        dataLabels: {
-          enabled: false
-        }
-      };
-
-      var chart = new ApexCharts(document.querySelector("#revenue-statistics-chart"), options);
-      chart.render();
-    });
-  </script>
-</body>
+</section>

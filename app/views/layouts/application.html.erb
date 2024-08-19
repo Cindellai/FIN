@@ -129,16 +129,16 @@
 </head>
 <body>
   <%= render 'shared/navbar' %>
-  <div class="flex flex-col flex-grow container mx-auto">
-    <div class="flex flex-grow">
+ 
     
+    <div>
       <!-- Main Content -->
-      <div class="flex-grow p-4">
+     
         <%= render 'shared/alerts' %>
         <%= yield %>
-      </div>
+      
     </div>
-  </div>
+  
   <% unless @hide_footer %>
     <%= render 'shared/footer' %>
   <% end %>
