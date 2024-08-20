@@ -1,15 +1,16 @@
-<div class="w-72 bg-gradient-to-b from-gray-50 to-white shadow-xl rounded-xl p-4 fixed top-39 left-10 right-10 h-300 overflow-y-auto border border-gray-300">
+<div class="w-60 bg-gradient-to-b from-gray-50 to-white shadow-xl rounded-xl p-4 fixed top-39 left-5 right-10 h-300 overflow-y-auto border border-gray-300">
   <h2 class="text-2xl font-bold mb-6 text-center text-gray-700">Following</h2>
-  <ul class="space-y-4">
+  <ul class="space-y-2">
     <% current_user.subscribed_traders.limit(6).each do |trader| %>
-      <li class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out">
+      <li class="flex items-center border-t p-2 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out">
         <% if trader.profile_picture.attached? %>
           <%= image_tag trader.profile_picture, class: 'w-12 h-12 rounded-full object-cover mr-4 shadow-md' %>
         <% else %>
-          <div class="w-12 h-12 rounded-full bg-gray-300 mr-4 shadow-md"></div>
+          <div class="w-12 h-12 rounded-full border-t  bg-gray-300 mr-4 shadow-md"></div>
+
         <% end %>
         <div>
-          <%= link_to "#{trader.first_name} #{trader.last_name}", user_path(trader), class: 'text-gray-900 text-sm font-semibold hover:text-blue-600' %>
+          <%= link_to "#{trader.first_name} #{trader.last_name}", user_path(trader), class: 'leading-snug text-sm text-gray-900 font-bold truncate' %>
           <p class="text-xs text-gray-500 mt-1"><%= pluralize(trader.posts.count, 'post') %></p>
         </div>
       </li>

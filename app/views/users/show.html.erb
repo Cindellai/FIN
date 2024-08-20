@@ -1,15 +1,5 @@
 <div class="container mx-auto p-4">
   <%= render 'profile', user: @user %>
-  <div class="mt-4">
-    <% if current_user == @user %>
-      <%= link_to 'Add Post', new_user_post_path(@user), class: 'btn btn-primary' %>
-    <% end %>
-    <% if @posts.present? && @posts.any? %>
-      <% @user.posts.each do |post| %>
-        <%= render partial: 'posts/post_card', locals: { post: post } %>
-      <% end %>
-    <% else %>
-      <p>No posts available.</p>
-    <% end %>
-  </div>
-</div>
+
+ </div>
+
