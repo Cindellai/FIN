@@ -1,11 +1,15 @@
 require 'faker'
 
 # Clear existing data
+# db/seeds.rb
+
+# Clear existing records
+User.destroy_all
+Post.destroy_all
 Comment.destroy_all
 Trade.destroy_all
-Post.destroy_all
 Subscription.destroy_all
-User.destroy_all
+
 
 # Path to your 4 downloaded avatar images
 avatar_files = [
@@ -140,4 +144,3 @@ users.each do |user|
 end
 
 puts "Seeded #{User.count} users, #{Post.count} posts, #{Trade.count} trades, #{Subscription.count} subscriptions, #{Comment.count} comments."
-
