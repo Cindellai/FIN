@@ -5,6 +5,18 @@
 
 /* Add any custom styles here */
 
+.bg-persian-green-500 {
+  color: var(--persian-green-500);
+}
+
+.border-persian-green-300 {
+  border-color: var(--persian-green-300);
+}
+
+
+/* Add more classes as needed */
+
+
 .group:hover .group-hover\:translate-x-1 {
   transform: translateX(0.25rem);
 }
