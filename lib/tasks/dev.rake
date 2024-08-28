@@ -19,6 +19,9 @@ namespace :db do
 
     5.times do
       traders << User.create!(
+        # Had to add lines 23 and 24 to get the sample_data task to work
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
         email: Faker::Internet.email,
         password: 'password',
         username: Faker::Internet.username,
@@ -28,6 +31,8 @@ namespace :db do
 
     7.times do
       students << User.create!(
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
         email: Faker::Internet.email,
         password: 'password',
         username: Faker::Internet.username,
